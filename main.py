@@ -6,6 +6,7 @@ wm = WifiManager()
 wm.connect()
 
 
+
 while not wm.is_connected():
     pass
 
