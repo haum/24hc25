@@ -79,6 +79,9 @@ class App:
         self.port = port
         self.handlers = []
 
+    def add_handler(self, path, handler, methods=['GET']):
+        self.handlers.append((path, methods, handler))
+
     def route(self, path, methods=['GET']):
         def wrapper(handler):
             self.handlers.append((path, methods, handler))
