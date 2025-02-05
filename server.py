@@ -77,8 +77,29 @@ async def api_handler(r, w):
         w.write(b'HTTP/1.0 400 \r\n')
     # drain stream buffer
     await w.drain()
- 
- 
+
+async def led_handler (r, w):
+    if r.path=="/led":
+        if r.method=="GET":
+            r.path = "/api/led_index.htm"
+            await root_handler(r, w)
+        if r.method=="POST":
+            # curl -X POST -i 'http://192.168.0.184/led' --data 'ledcolor=666666'            
+            body = await r.read(1024)
+            form = web.parse_qs(body.decode())
+            color = form.get('ledcolor')
+            # write http headers
+            w.write(b'HTTP/1.0 200 OK\r\n')
+            w.write(b'Content-Type: text/html; charset=utf-8\r\n')
+            w.write(b'\r\n')
+            # write page body
+            w.write(b'OK')
+            color = int(color[1:],16)
+            led.np[0] = ((color >> 8 & 0xFF),(color >> 16),(color & 0xFF))
+            led.new_color.set()          
+            # drain stream buffer
+            await w.drain()
+    
 async def api_get_handler(r, w):
     if r.path=="/api":
         r.path = "/api/index.htm.gz"
@@ -88,4 +109,4 @@ def init(app):
     app.add_handler('/', root_handler)
     app.add_handler('/api', api_get_handler, methods=['GET'])
     app.add_handler('/api', api_handler, methods=['POST'])
-    
+    app.add_handler('/led', led_handler, methods=['POST', 'GET'])
