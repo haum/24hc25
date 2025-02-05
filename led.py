@@ -14,9 +14,6 @@ async def update_led():
     while True:
         # wait for the event to be set
         await new_color.wait()
-        # print(np[0])
         np.write()
         new_color.clear()
-
-
 
