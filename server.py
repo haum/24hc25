@@ -4,10 +4,6 @@ import led
 import uos
 import uasyncio as asyncio
 
-
-import web
-import uasyncio as asyncio
-
 async def root_handler(r, w):
 
     if r.path=="/":
@@ -54,8 +50,7 @@ async def root_handler(r, w):
     f.close()
 
 
-# curl -X POST -i 'http://pi_esp/api' --data '{"LED":{"r":0,"g":0,"b":0}}'
-
+# curl -X POST -i 'http://ip_esp/api' --data '{"LED":{"r":0,"g":0,"b":0}}'
 async def api_handler(r, w):
     body = await r.read(1024)
     data = body.decode()
