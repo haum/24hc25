@@ -5,12 +5,12 @@ import aiowebserver as web
 
 @web.route('GET', '/')
 async def root_handler(rq):
-    await rq.sendfile('index.htm')
+    await rq.sendfile('static/root_index.htm')
 
 
 @web.route('GET', '/api')
 async def api_get_handler(rq):
-    await rq.sendfile('api/index.htm')
+    await rq.sendfile('static/api_index.htm')
 
 
 # curl -X POST -i 'http://ip_esp/api' --data '{"LED":{"r":0,"g":0,"b":0}}'
@@ -32,7 +32,7 @@ async def api_post_handler(rq):
 
 @web.route('GET', '/led')
 async def led_get_handler(rq):
-    await rq.sendfile('api/led_index.htm')
+    await rq.sendfile('static/led_index.htm')
 
 
 # curl -X POST -i 'http://ip_esp/led' --data 'ledcolor=#666666'
