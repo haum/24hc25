@@ -20,7 +20,6 @@ def start():
 ''')
 
     import asyncio
-    import haumbot.wlan
     import haumbot.led
     import haumbot.routes # To register web routes
 
