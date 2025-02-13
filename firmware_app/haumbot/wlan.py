@@ -24,6 +24,29 @@ def print_wlaninfo():
     else:
         print("Not connected")
 
+def first_connect():
+        if not wlan.active():
+            wlan.active(True)
+        if wlan.status() != network.STAT_IDLE:
+            wlan.disconnect()
+        if hostname:
+            wlan.config(hostname=hostname)
+        nets = wlan.scan()
+        ssids = tuple(net[0] for net in nets)
+        for n in networks:
+            s = n[0].encode()
+            if s in ssids:
+                print(f'Found network "{s}", try connecting')
+                wlan.connect(*n)
+                while not wlan.isconnected():
+                    print('.', end='')
+                    time.sleep_ms(100)
+                print('\n\r')
+                print_wlaninfo()
+                break
+        else:
+            print(f'No known network in {ssids}')
+            raise ValueError
 
 async def connect(ssid, passwd):
     wlan.connect(ssid, passwd)
