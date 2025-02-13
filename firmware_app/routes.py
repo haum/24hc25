@@ -8,6 +8,11 @@ async def root_handler(rq):
     await rq.sendfile('static/root_index.htm')
 
 
+@web.route('GET', '/static/', True)
+async def root_handler(rq):
+    await rq.sendfile(rq.path[8:], 'static/')
+
+
 @web.route('GET', '/api')
 async def api_get_handler(rq):
     await rq.sendfile('static/api_index.htm')
