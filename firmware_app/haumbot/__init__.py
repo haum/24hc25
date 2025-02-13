@@ -1,9 +1,23 @@
 def start():
+    try:
+        import aiowebserver as web
+    except ImportError:
+        try:
+            import mip
+            mip.install('github:haum/micropython-aiowebserver')
+            import aiowebserver as web
+        except OSError:
+            print('''
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! Need haum/micropython-aiowebserver library, but unable to download. !!
+!! Is the target connected?                                            !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+''')
+
     import asyncio
     import haumbot.wlan
     import haumbot.led
     import haumbot.routes # To register web routes
-    import aiowebserver as web
 
     asyncio.create_task(wlan.autoconnect())
     asyncio.create_task(web.start())
