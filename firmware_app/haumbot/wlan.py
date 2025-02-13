@@ -1,10 +1,12 @@
 import json
 import network
 import asyncio
+import time
 
 wlan = network.WLAN(network.STA_IF)
-hostname = 'haumbot'
 networks = []
+mac = wlan.config('mac')
+hostname = 'haumbot-' + ''.join('{:02x}'.format(b) for b in mac[3:])
 try:
     with open('wifi.dat', 'r') as f:
         for line in f:
