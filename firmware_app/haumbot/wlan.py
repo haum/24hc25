@@ -2,6 +2,9 @@ import json
 import network
 import asyncio
 import time
+from machine import Pin
+
+LED_builtin = Pin(8, Pin.OUT)
 
 wlan = network.WLAN(network.STA_IF)
 networks = []
@@ -42,8 +45,10 @@ def first_connect():
                 wlan.connect(*n)
                 while not wlan.isconnected():
                     print('.', end='')
+                    LED_builtin.value(not LED_builtin.value())
                     time.sleep_ms(100)
                 print('\n\r')
+                LED_builtin.off() # LED_builtin on
                 print_wlaninfo()
                 break
         else:
