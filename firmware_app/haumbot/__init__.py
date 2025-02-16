@@ -1,12 +1,12 @@
 def start():
     import haumbot.wlan
     try:
-        haumbot.wlan.first_connect()
-    except ValueError:
-        print(f'No known network in file wifi.dat ')
-    try:
         import aiowebserver as web
     except ImportError:
+        try:
+            haumbot.wlan.first_connect()
+        except ValueError:
+            print(f'No known network in file wifi.dat')
         try:
             import mip
             mip.install('github:haum/micropython-aiowebserver')
