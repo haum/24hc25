@@ -3,6 +3,7 @@
 	<head>
 		<title>MinHAUMtaure</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="/static/coloris/coloris.min.css">
 		<style>
 		body {
 			display: flex;
@@ -22,12 +23,76 @@
 			min-height: 800px;
 			min-width: 650px;
 		}
+		.clr-field button {
+			width: 22px;
+			height: 22px;
+			left: 5px;
+			right: auto;
+			border-radius: 50%;
+		}
+		.clr-field input {
+			width: 150px;
+			height: 32px;
+			padding: 0 10px;
+			padding-left: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			padding-left: 36px;
+		}
 		</style>
 	</head>
 	<body>
 		<div class="box">
 			<p><a href="/api">/api</a></p>
 			<p><a href="/led">/led</a></p>
+			<form method="POST" action="/led" id="led_form">
+				<input type="color" name="ledcolor" value="#000000" />
+				<input type="submit" />
+			</form>
 		</div>
+
+		<script type="text/javascript" src="/static/coloris/coloris.min.js"></script>
+		<script type="module">
+		const cs = document.querySelectorAll('input[type=color]');
+		for (const c of cs) {
+			c.type = 'text';
+			c.dataset.coloris = 'convert';
+		}
+		Coloris.setInstance('input[data-coloris=convert]', {
+			theme: 'pill',
+			themeMode: 'auto',
+			margin: 10,
+			alpha: false,
+			swatches: [
+				'#ff0000',
+				'#ff8000',
+				'#ffff00',
+				'#80ff00',
+				'#00ff00',
+				'#00ff80',
+				'#00ffff',
+				'#0080ff',
+				'#0000ff',
+				'#8000ff',
+				'#ff00ff',
+				'#ff0080',
+				'#000000',
+			]
+		});
+
+		const led_form = document.getElementById("led_form");
+		led_form.addEventListener('submit', e => {
+			e.preventDefault();
+			const data = new URLSearchParams();
+			for (const pair of new FormData(led_form)) {
+				data.append(pair[0], pair[1]);
+			}
+			fetch(led_form.action, {
+				method: 'post',
+				headers: { "Content-Type": "application/x-www-form-urlencoded" },
+				body: data
+			});
+		});
+		</script>
 	</body>
 </html>
