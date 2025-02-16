@@ -1,6 +1,8 @@
 import asyncio
 import json
+import struct
 import haumbot.led as led
+import haumbot.motors as motors
 import aiowebserver as web
 
 @web.route('GET', '/')
@@ -61,3 +63,13 @@ async def led_post_handler(rq):
     led.new_color.set()
     await rq.w('OK')
 
+@web.route_ws('/motors.ws')
+async def motor_ws(rq, evt):
+    t = evt['type']
+    if t == 'bytes':
+        vl, vr = struct.unpack('ff', evt['data'])
+        motors.ml.go(vl)
+        motors.mr.go(vr)
+    elif t == 'close':
+        motors.ml.stop()
+        motors.mr.stop()
