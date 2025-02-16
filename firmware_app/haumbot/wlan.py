@@ -26,7 +26,7 @@ def print_wlaninfo():
         print("DNS:", c[3])
         print("Hostname:", wlan.config('hostname'))
         print(f"RSSI: {wlan.status('rssi')} dB")
-        print(f'web access: http://{c[0]}')
+        print(f'Web access: http://{c[0]}/')
     else:
         print("Not connected")
 
