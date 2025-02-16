@@ -39,6 +39,9 @@
 			border-radius: 5px;
 			padding-left: 36px;
 		}
+		fieldset {
+			width: fit-content;
+		}
 		</style>
 	</head>
 	<body>
@@ -46,9 +49,21 @@
 			<p><a href="/api">/api</a></p>
 			<p><a href="/led">/led</a></p>
 			<form method="POST" action="/led" id="led_form">
-				<input type="color" name="ledcolor" value="#000000" />
-				<input type="submit" />
+				<p>
+					<input type="color" name="ledcolor" value="#000000" />
+					<input type="submit" />
+				</p>
 			</form>
+			<form>
+				<p>
+				<fieldset>
+					<legend>Motors</legend>
+					<input type="range" min="-100" max="100" value="0" id="motors_ml" /><br/>
+					<input type="range" min="-100" max="100" value="0" id="motors_mr" /><br/>
+					<button id="motors_stop">Stop</button>
+				</fieldset>
+			</form>
+			</p>
 		</div>
 
 		<script type="text/javascript" src="/static/coloris/coloris.min.js"></script>
@@ -92,6 +107,33 @@
 				headers: { "Content-Type": "application/x-www-form-urlencoded" },
 				body: data
 			});
+		});
+
+		const motors_buf = new Float32Array(2);
+		const motors_ml = document.getElementById("motors_ml")
+		const motors_mr = document.getElementById("motors_mr")
+		const motors_stop = document.getElementById("motors_stop")
+		let motors_ws = null;
+		const update_motors = () => {
+			const vl = motors_ml.value / 100;
+			const vr = motors_mr.value / 100;
+			if (motors_ws && motors_ws.readyState == WebSocket.OPEN) {
+				const lim = v => Math.max(-1, Math.min(v, 1));
+				motors_buf[0] = lim(vl);
+				motors_buf[1] = lim(vr);
+				motors_ws.send(motors_buf);
+			} else {
+				motors_ws = new WebSocket('ws://' + document.location.host + '/motors.ws');
+				motors_ws.addEventListener("open", e => update_motors);
+			}
+		};
+		motors_ml.addEventListener('change', update_motors);
+		motors_mr.addEventListener('change', update_motors);
+		motors_stop.addEventListener('click', e => {
+			e.preventDefault();
+			motors_ml.value = 0;
+			motors_mr.value = 0;
+			update_motors();
 		});
 		</script>
 	</body>
