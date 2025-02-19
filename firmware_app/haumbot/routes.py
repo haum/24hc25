@@ -3,7 +3,9 @@ import json
 import struct
 import haumbot.led as led
 import haumbot.motors as motors
+import haumbot.position as position
 import aiowebserver as web
+from math import pi
 
 @web.route('GET', '/')
 async def root_handler(rq):
@@ -73,3 +75,17 @@ async def motor_ws(rq, evt):
     elif t == 'close':
         motors.ml.stop()
         motors.mr.stop()
+
+@web.route('GET', '/position.txt')
+async def pos_handler(rq):
+    await rq.header_text()
+    await rq.w("Position:\r\n{} mm\r\n{} mm\r\n{} degrees".format(
+        round(position.x * 1000),
+        round(position.y * 1000),
+        round(position.a * 180 / pi)
+    ))
+
+@web.route('GET', '/position_reset')
+async def position_reset_handler(rq):
+    position.reset()
+    await rq.redirect('/position.txt')
