@@ -21,11 +21,13 @@ def start():
 
     import asyncio
     import haumbot.led
+    import haumbot.position
     import haumbot.routes # To register web routes
 
     asyncio.create_task(wlan.autoconnect())
     asyncio.create_task(web.start())
     asyncio.create_task(led.update_led())
+    position.start_measure()
 
     try:
         asyncio.get_event_loop().run_forever()
