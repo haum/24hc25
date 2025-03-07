@@ -26,8 +26,8 @@ class Servo:
         else:
             self.pwm.duty_ns(self._p(p))
 
-pin_ml = machine.Pin(5, machine.Pin.OUT)
-pin_mr = machine.Pin(6, machine.Pin.OUT)
+pin_ml = machine.Pin(1, machine.Pin.OUT)
+pin_mr = machine.Pin(2, machine.Pin.OUT)
 ml = Servo(pin_ml, False)
 mr = Servo(pin_mr, True)
 
