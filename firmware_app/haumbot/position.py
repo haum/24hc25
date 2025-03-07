@@ -14,7 +14,7 @@ v = 0 # average speed
 
 P = machine.Pin
 i2c_l = machine.SoftI2C(scl=P(10), sda=P(9), freq=400_000, timeout=1000)
-i2c_r = machine.SoftI2C(scl=P(8), sda=P(7), freq=400_000, timeout=1000)
+i2c_r = machine.SoftI2C(scl=P(7), sda=P(6), freq=400_000, timeout=1000)
 timer = machine.Timer(0)
 
 def as5600_get_rawangle(i2c):
