@@ -216,6 +216,10 @@
 			motors_joystick.addEventListener('mousemove', onmove);
 			motors_joystick.addEventListener('mouseup', onup);
 			motors_joystick.addEventListener('mouseleave', onup);
+			motors_joystick.addEventListener('touchstart', ondown);
+			motors_joystick.addEventListener('touchmove', onmove);
+			motors_joystick.addEventListener('touchend', onup);
+			motors_joystick.addEventListener('touchcancel', onup);
 		}
 		</script>
 	</body>
