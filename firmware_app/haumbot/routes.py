@@ -76,6 +76,28 @@ async def motor_ws(rq, evt):
         motors.ml.stop()
         motors.mr.stop()
 
+async def info_ws_task(rq):
+    while True:
+        b = struct.pack(
+            '>fffbbb',
+            position.x, position.y, position.a,
+            led.np[0][1], led.np[0][0], led.np[0][2]
+        )
+        await rq.w(b);
+        await asyncio.sleep(0.5)
+
+info_tasks = {}
+@web.route_ws('/infos.ws')
+async def info_ws(rq, evt):
+    global info_tasks
+    t = evt['type']
+    if t == 'open':
+        info_tasks[rq] = asyncio.create_task(info_ws_task(rq))
+
+    elif t == 'close':
+        info_tasks[rq].cancel()
+        del info_tasks[rq]
+
 @web.route('GET', '/position.txt')
 async def pos_handler(rq):
     await rq.header_text()
