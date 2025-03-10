@@ -2,12 +2,16 @@ include <haumbot_tools.scad>
 use <haumbot_extparts.scad>
 use <haumbot_components.scad>
 
-display = 0; // [0: Assembly L, 1: Assembly R, 2: Gear Motor, 3: Gear wheel, 4: Wheel, 5: Bracket L, 6: Bracket R]
+display = 0; // [0: Assembly L, 1: Assembly R, 2: Gear Motor, 3: Gear Motor FDM main, 4: Gear Motor FDM axis, 5: Gear wheel, 6: Gear wheel FDM main, 7: Gear wheel FDM axis, 8: Wheel, 9: Bracket L, 10: Bracket R]
 switch(display) {
 propulsion_assembly();
 	propulsion_assembly(true);
 	gear_motor();
+	gear_motor_fdm_main();
+	gear_motor_fdm_axis();
 	gear_wheel();
+	gear_wheel_fdm_main();
+	gear_wheel_fdm_axis();
 	propulsion_wheel();
 	propulsion_bracket();
 	propulsion_bracket(true);
@@ -35,18 +39,21 @@ module axis(a=-1, b1=-1, b2=-1) {
 	T(z=(bb1-bb2)/2) zcyl(d=axis_B_d, h=axis_B_h, rounding=0.5); // Wheel axis part B
 }
 
-module gear_motor() tag_scope() diff() {
-	// Hollow gear
-	difference() {
-		w = 5;
-		spur_gear(
-				mod=mod, teeth=teeth_gear_motor, thickness=w, helical=30,
-				herringbone=true, slices=$preview?5:200
-				);
-		zcyl(d=30, h=w+1);
-	}
+module gear_motor_plain() {
+	spur_gear(
+		mod=mod, teeth=teeth_gear_motor, thickness=5, helical=30,
+		herringbone=true, slices=$preview?5:200
+	);
+}
 
-	// Axis
+module gear_motor_fdm_main() {
+	difference() {
+		gear_motor_plain();
+		cuboid([9.1, 9.1, 6]);
+	}
+}
+
+module gear_motor_fdm_axis(fdm=true) tag_scope() diff() {
 	difference() {
 		axis(6.5, 0, -1);
 		T(z=3) zcyl(d=6, h=3); // Remove part of axis to reveal servo attach teeth
@@ -56,6 +63,24 @@ module gear_motor() tag_scope() diff() {
 	// Servo attach teeth
 	T(z=1) servo_attach();
 
+	if (fdm) {
+		difference() {
+			cuboid([9, 9, 5]);
+			zcyl(h=6, d=6);
+		}
+	}
+}
+
+module gear_motor() tag_scope() diff() {
+	// Hollow gear
+	difference() {
+		gear_motor_plain();
+		zcyl(d=30, h=6);
+	}
+
+	// Axis
+	gear_motor_fdm_axis(false);
+
 	// Spokes
 	zrot_copies(n=9) T(x=-4) {
 		xcyl(d=2, h=12, anchor=RIGHT);
@@ -64,16 +89,38 @@ module gear_motor() tag_scope() diff() {
 	}
 }
 
-module gear_wheel() tag_scope() diff() {
-	// Gear
+module gear_wheel_plain() {
 	spur_gear(
-			mod=mod, teeth=teeth_gear_wheel, thickness=5, helical=-30,
-			herringbone=true, slices=$preview?5:200
-			);
+		mod=mod, teeth=teeth_gear_wheel, thickness=5, helical=-30,
+		herringbone=true, slices=$preview?5:200
+	);
+}
 
-	// Axis
+module gear_wheel_fdm_main() {
+	difference() {
+		gear_wheel_plain();
+		cuboid([9.1, 9.1, 6]);
+	}
+}
+
+module gear_wheel_fdm_axis(fdm=true) tag_scope() diff() {
 	axis(a=6.5);
-	T(z=-10) screw_hole("M3", l=17, anchor=BOTTOM); // Axis hole
+	T(z=-10) screw_hole("M3", l=17, anchor=BOTTOM);
+
+	if (fdm) {
+		difference() {
+			cuboid([9, 9, 5]);
+			zcyl(h=6, d=6);
+		}
+	}
+}
+
+module gear_wheel() {
+	difference() {
+		gear_wheel_plain();
+		zcyl(h=6, d=6);
+	}
+	gear_wheel_fdm_axis();
 }
 
 module propulsion_wheel() tag_scope() diff() {
