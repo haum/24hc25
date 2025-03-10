@@ -148,6 +148,22 @@
 			update_motors();
 		});
 
+		let infos_ws = new WebSocket('ws://' + document.location.host + '/infos.ws');
+		infos_ws.binaryType = "arraybuffer";
+		infos_ws.addEventListener("message", e => {
+			const view = new DataView(e.data);
+
+			const position_x = view.getFloat32(0);
+			const position_y = view.getFloat32(4);
+			const position_a = view.getFloat32(8);
+
+			const led_r = view.getUint8(12);
+			const led_g = view.getUint8(13);
+			const led_b = view.getUint8(14);
+
+			console.log(position_x, position_y, position_a, led_r, led_g, led_b)
+		});
+
 		const motors_joystick = document.getElementById('motors_joystick');
 		{
 			const btnsz = 40;
