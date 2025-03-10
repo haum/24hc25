@@ -42,7 +42,7 @@ def first_connect():
         for n in networks:
             s = n[0].encode()
             if s in ssids:
-                print(f'Found network "{s}", try connecting')
+                print(f'Found network "{n[0]}", try connecting')
                 wlan.connect(*n)
                 while not wlan.isconnected():
                     print('.', end='')
@@ -101,7 +101,7 @@ async def autoconnect():
         for n in networks:
             s = n[0].encode()
             if s in ssids:
-                print(f'Found network "{s}", try connecting')
+                print(f'Found network "{n[0]}", try connecting')
                 await connect(*n)
                 break
         else:
