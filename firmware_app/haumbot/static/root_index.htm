@@ -42,6 +42,13 @@
 		fieldset {
 			width: fit-content;
 		}
+		#ledcolor_info {
+			display: inline-block;
+			width: 40px;
+			height: 40px;
+			border: 2px solid black;
+			border-radius: 50%;
+		}
 		</style>
 	</head>
 	<body>
@@ -57,6 +64,7 @@
 					<input type="color" name="ledcolor" value="#000000" />
 					<input type="submit" />
 				</p>
+				<p><div id="ledcolor_info" /></div></p>
 			</form>
 			<form>
 				<p>
@@ -148,6 +156,7 @@
 			update_motors();
 		});
 
+		const ledcolor_info = document.getElementById('ledcolor_info');
 		let infos_ws = new WebSocket('ws://' + document.location.host + '/infos.ws');
 		infos_ws.binaryType = "arraybuffer";
 		infos_ws.addEventListener("message", e => {
@@ -161,7 +170,15 @@
 			const led_g = view.getUint8(13);
 			const led_b = view.getUint8(14);
 
-			console.log(position_x, position_y, position_a, led_r, led_g, led_b)
+			let color_hex = '#';
+			for (const v of [led_r, led_g, led_b]) {
+				const sv = v.toString(16);
+				if (sv.length == 1) color_hex += '0';
+				color_hex += sv;
+			}
+			ledcolor_info.style.backgroundColor = color_hex;
+
+			console.log(position_x, position_y, position_a);
 		});
 
 		const motors_joystick = document.getElementById('motors_joystick');
