@@ -89,7 +89,3 @@ async def pos_handler(rq):
 async def position_reset_handler(rq):
     position.reset()
     await rq.redirect('/position.txt')
-=======
-    # await rq.w('OK')
-    await rq.sendfile('haumbot/static/led_index.htm')
->>>>>>> Stashed changes
