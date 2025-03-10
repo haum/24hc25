@@ -1,10 +1,9 @@
+import asyncio
+import haumbot.config as conf
 from machine import Pin
 from neopixel import NeoPixel
 
-import asyncio
-
-pin = Pin(0, Pin.OUT)   # set GPIO0 to output to drive NeoPixels
-np = NeoPixel(pin, 1)   # create NeoPixel driver on GPIO0 for 1 pixels
+np = NeoPixel(Pin(conf.get('pin_led'), Pin.OUT), 1)  # create NeoPixel driver for 1 pixels on pin_led
 
 np[0] = (0, 0, 0)
 np.write()         
