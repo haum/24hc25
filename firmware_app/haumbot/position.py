@@ -64,6 +64,8 @@ def reset():
     Kv = conf.get('Kv')
 
 def start_measure():
+    timer.deinit()
+
     try:
         reset()
     except OSError:
