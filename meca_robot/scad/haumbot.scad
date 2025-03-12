@@ -49,14 +49,16 @@ module back_shape() {
 	difference() {
 		union() { // Base shape
 			hull() { // Main
-				T(x=-20/sin(120)+10) rect([65, 77], rounding=3, anchor=LEFT);
-				T(x=65) circle(d=40);
+				T(x=-20/sin(120)+10) rect([95, 77], rounding=3, anchor=LEFT);
+				T(x=95) circle(d=40);
 			}
 			T(x=-20/sin(120)+5, rz=90) rect([10, 10], rounding=[3, 3, -3, -3]); // Leg
 		}
-		T(x=30) xcopies(15, 2) circle(d=10); // cable holes
+		T(x=30) hull() xcopies(15, 2) circle(d=10); // cable holes
 		T(x=18) ycopies(66, 2) xcopies(10, 4) circle(d=3.4); // Mounting holes
-		T(x=65) circle(d=30); // Hook hole
+		T(x=95) circle(d=30); // Hook hole
+		T(x=77, y=-23) circle(d=5); // Led hole
+		T(x=77, y=23) rect([9, 14]); // Button hole
 	}
 }
 
@@ -118,8 +120,9 @@ module assembly() {
 	T_propulsion(true) propulsion_assembly_nobracket(true);
 	T(z=-(1-cos(20))*20) measure_assembly();
 
-	T_backplane() T(x=-1.5, rz=90) color("#ffcc0080") battery_holder();
-	T_backplane() T(x=30, y=-18, z=1) color("#ffcc0080") battery_charger();
-	T_backplane() T(x=30, y=18, z=1) color("#ffcc0080") esp_controller();
+	T_backplane() T(x=60, rz=90) color("#ffcc0080") battery_holder();
+	T_backplane() T(x=25, y=18, z=1, rz=180) color("#ffcc0080") battery_charger();
+	T_backplane() T(x=25, y=-18, z=1, rz=180) color("#ffcc0080") esp_controller();
+	T_backplane() T(x=77, y=23) color("#ffcc0080") button();
 	T(x=35, z=0.5, rz=90) T(rx=90) color("#ffcc0080") vl53l3cx();
 }
