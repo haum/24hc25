@@ -1,6 +1,6 @@
 include <haumbot_tools.scad>
 
-display = 0; // [0: servomotor, 1: servo_attach, 2: as5600_board, 3: as5600_magnet, 4: esp_controller, 5: tire, 6: washer_M8_A, 7: washer_M6_A, 8: battery_holder, 9: battery_charger, 10: VL53L3CX]
+display = 0; // [0: servomotor, 1: servo_attach, 2: as5600_board, 3: as5600_magnet, 4: esp_controller, 5: tire, 6: washer_M8_A, 7: washer_M6_A, 8: battery_holder, 9: battery_charger, 10: VL53L3CX, 11: Button]
 switch(display) {
 	servomotor();
 	servo_attach();
@@ -13,6 +13,7 @@ switch(display) {
 	battery_holder();
 	battery_charger();
 	vl53l3cx();
+	button();
 }
 
 
@@ -163,4 +164,14 @@ module vl53l3cx() {
 		cuboid([5.2, 5.2, 1.5], rounding=2.5, edges=[RIGHT+BACK, RIGHT+FRONT]);
 		T(x=-0.4) zcyl(h=1.5+eps, d=3.2);
 	}
+}
+
+/** Button **/
+
+module button() {
+	lips_h = 1;
+	cuboid([9, 13.2, 9.5-lips_h], anchor=TOP); // Body
+	cuboid([10.3, 14.8, lips_h], anchor=BOTTOM); // Lips
+	cuboid([6.3, 12, 2.5+lips_h], anchor=BOTTOM); // Button
+	T(y=2.5) ycopies(5, 2) cuboid([2.3, 0.4, 16.5-lips_h], anchor=TOP); // Pins
 }
