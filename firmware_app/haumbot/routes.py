@@ -37,7 +37,7 @@ async def wifi_post_handler(rq):
     else:
         with open(wifi_credentials, 'a') as file:
             file.write(''.join(lines))
-    await rq.sendfile('haumbot/static/root_index.htm')
+    await rq.redirect('/')
 
 @web.route('GET', '/api')
 async def api_get_handler(rq):
