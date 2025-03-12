@@ -79,7 +79,7 @@ module front_structure() {
 	tag_scope() diff() yflip_copy() {
 		// Bottom front leg
 		chain_hull() {
-			T_hole_front() zcyl(d=6, h=3);
+			T_hole_front() T(x=-0.4, y=-0.2) zcyl(d=7.6, h=3);
 			T_hole_front() T(rz=-80, tx=5) zcyl(d=4, h=3);
 			T_hole_sensor() T(x=-3) xcyl(d=7, h=3);
 			p();
@@ -88,22 +88,25 @@ module front_structure() {
 		T_hole_sensor() rm() xcyl(d=3.4, h=20);
 		T_hole_sensor() T(x=-7, ry=90) rm() nut_trap_inline(5, "M3", $slop=0.1, anchor=BOTTOM);
 		T_hole_front() rm() zcyl(d=3.4, h=4);
+		T_hole_front() nut_trap_inline(3, "M3", $slop=0.1, anchor=BOTTOM);
 
 		// Side leg
 		chain_hull() {
-			T_hole_side() zcyl(d=6, h=3);
+			T_hole_side() zcyl(d=8, h=3);
 			T_hole_side() T(rz=-135, tx=5) zcyl(d=4, h=3);
 			p();
 		}
 		T_hole_side() rm() zcyl(d=3.4, h=4);
+		T_hole_side() T(rz=30-5) nut_trap_inline(3, "M3", $slop=0.1, anchor=BOTTOM);
 
 		// Top arm
 		chain_hull() {
-			T_hole_top() ycyl(d=6, h=3);
+			T_hole_top() ycyl(d=8, h=3);
 			T_hole_top() T(ry=90, tx=5) ycyl(d=4, h=3);
 			p();
 		}
 		T_hole_top() rm() ycyl(d=3.4, h=4);
+		T_hole_top() T(rx=90) nut_trap_inline(3, "M3", $slop=0.1, anchor=BOTTOM);
 	}
 }
 
