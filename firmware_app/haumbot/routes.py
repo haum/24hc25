@@ -7,6 +7,8 @@ import haumbot.position as position
 import aiowebserver as web
 from math import pi
 
+wifi_credentials = 'wifi.dat'
+
 @web.route('GET', '/')
 async def root_handler(rq):
     await rq.sendfile('haumbot/static/root_index.htm')
@@ -16,11 +18,25 @@ async def root_handler(rq):
 async def root_handler(rq):
     await rq.sendfile(rq.path[8:], 'haumbot/static/')
 
+@web.route('GET', '/wifi')
+async def api_get_handler(rq):
+    await rq.sendfile('haumbot/static/wifi_index.htm')
+
+@web.route('POST', '/wifi')
+async def wifi_post_handler(rq):
+    form = await rq.decode_postform_data()
+    ssid = form.get('SSID')
+    password  = form.get('Password')
+    lines = []
+    lines.append('{0};{1}\n'.format(ssid, password))
+    print (lines)
+    with open(wifi_credentials, 'a') as file:
+        file.write(''.join(lines))
+    await rq.sendfile('haumbot/static/root_index.htm')
 
 @web.route('GET', '/api')
 async def api_get_handler(rq):
     await rq.sendfile('haumbot/static/api_index.htm')
-
 
 # curl -X POST -i 'http://ip_esp/api' --data '{"LED":{"r":0,"g":0,"b":0}}'
 @web.route('POST', '/api')
