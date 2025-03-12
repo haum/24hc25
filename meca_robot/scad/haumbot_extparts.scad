@@ -119,7 +119,7 @@ module tire() {
 
 /** Washers **/
 
-function washer_M8_A_dim() = [8.4, 17, 1.6];
+function washer_M8_A_dim() = [8.4, 16, 1.6];
 module washer_M8_A() {
 	dim = washer_M8_A_dim();
 	tube(id=dim[0], od=dim[1], h=dim[2]);
