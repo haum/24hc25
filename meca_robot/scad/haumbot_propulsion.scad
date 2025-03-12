@@ -99,7 +99,7 @@ module gear_wheel_plain() {
 module gear_wheel_fdm_main() {
 	difference() {
 		gear_wheel_plain();
-		cuboid([9.1, 9.1, 6]);
+		zcyl(d=9.3, $fn=8, h=6);
 	}
 }
 
@@ -109,7 +109,7 @@ module gear_wheel_fdm_axis(fdm=true) tag_scope() diff() {
 
 	if (fdm) {
 		difference() {
-			cuboid([9, 9, 5]);
+			zcyl(d=9.2, $fn=8, h=5);
 			zcyl(h=6, d=6);
 		}
 	}
