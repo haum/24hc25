@@ -195,7 +195,7 @@ module propulsion_bracket_frame(r=false) tag_scope() diff() {
 	T(x=-5.5, z=r?-9-3.5:3.5) T_motor_gear() difference() {
 		cuboid([36, 17, 9], rounding=2, anchor=BOTTOM); // Body
 		T(z=-eps) cuboid([23, 12.2, 9+2*eps], chamfer=-0.5, anchor=BOTTOM); // Servo body hole
-		xcopies(28, 2) zcyl(d=1.5, h=12+eps, anchor=BOTTOM); // Servo screws holes
+		xcopies(28, 2) zcyl(d=1.8, h=12+eps, anchor=BOTTOM); // Servo screws holes
 		xflip_copy() T(x=-14, y=7, z=4.5) cuboid([3.4, 5, 5]); // Additional hooking holes
 	}
 	rm() T(x=-5.5, z=(r?-1:1)*4-eps) T_motor_gear() cuboid([23, 12.2, 9.5+2*eps], anchor=r?TOP:BOTTOM); // Cut triangle to allow servo to pass
