@@ -201,10 +201,10 @@ module propulsion_bracket_frame(r=false) tag_scope() diff() {
 	rm() T(x=-5.5, z=(r?-1:1)*4-eps) T_motor_gear() cuboid([23, 12.2, 9.5+2*eps], anchor=r?TOP:BOTTOM); // Cut triangle to allow servo to pass
 
 	// Attach on servo holder
-	T(x=-5.5, z=(r?-9-3.5:3.5)+4.5) T_motor_gear() T(x=36/2+4, ry=90) difference() {
+	T(x=-1, z=(r?-9-3.5:3.5)+4.5) T_motor_gear() T(x=36/2+4, ry=90) difference() {
 		union() { // Body
 			cuboid([3,6,3], rounding=2, edges=[TOP+FRONT, TOP+BACK], anchor=BOTTOM);
-			cuboid([3,6,4], rounding=-1, edges=BOTTOM, anchor=TOP);
+			cuboid([3,6,8.5], rounding=-1, edges=BOTTOM, anchor=TOP);
 		}
 		xcyl(h=5, d=3.4); // Hole
 	}

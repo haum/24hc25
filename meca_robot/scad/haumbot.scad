@@ -67,7 +67,7 @@ module front_structure() {
 	module T_hole_sensor() T(x=35-3/2-1.5/2, y=10, z=0.5) children();
 	module T_hole_side() T(x=21, y=33, z=-3.5) children();
 	module T_hole_front() T(x=30, y=20, z=-3.5) children();
-	module T_hole_top() T(x=16.5, y=22, z=26.2) children();
+	module T_hole_top() T(x=21, y=22, z=26.2) children();
 
 	// Central bar
 	hull() {
