@@ -13,18 +13,19 @@ module washer_clip_cap(wdim, hole=false) {
 	w = wdim[1]+4;
 	od = wdim[1];
 	wh = wdim[2];
+	h = wh+1;
 	l = 9;
 	o1 = hole ? 1.3 : 0;
 	o0 = hole ? 0.3 : 0;
 	difference() {
 		T(x=4) {
-			cuboid([5, w+2, 2], rounding=2, except=[TOP, BOTTOM]); // Top
+			T(x=-2.5) cuboid([w/2-2.5, w+2, h], rounding=2, except=[TOP, BOTTOM], anchor=LEFT); // Top
 			yflip_copy() T(y=w/2) { // Legs
-				T(y=1+o1) cuboid([l+o0, 1+o1, 2+o1], anchor=RIGHT+BACK);
+				T(y=1+o1) cuboid([l+o0, 1+o1, h+o1], anchor=RIGHT+BACK);
 				T(x=-l+1.5-o0/2, y=-1, rx=-90) prismoid(size1=[1+o0,2+o1], size2=[2+o0,2+o1], shift=[-0.5,0], h=1);
 			}
 		}
-		T(x=4) cuboid([4, w, 2+eps], rounding=2, except=[TOP, BOTTOM], anchor=RIGHT); // Cut top
+		T(x=4) cuboid([4, w, h+eps], rounding=2, except=[TOP, BOTTOM], anchor=RIGHT); // Cut top
 		zcyl(d1=od-0.05, d2=od+0.15, h=wh+0.1); // Washer cut
 	}
 }
