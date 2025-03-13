@@ -68,27 +68,32 @@ async def motor_ws(rq, evt):
         motors.ml.stop()
         motors.mr.stop()
 
-async def info_ws_task(rq):
+
+infos_ws_data = {}
+async def infos_ws_task(rq):
+    info = infos_ws_data[rq]
     while True:
-        b = struct.pack(
-            '>fffbbb',
-            position.x, position.y, position.a,
-            led.np[0][1], led.np[0][0], led.np[0][2]
-        )
+        mask = info['mask']
+        b = int(mask).to_bytes()
+        if mask & 1: b += struct.pack('>fff', position.x, position.y, position.a)
+        if mask & 2: b += struct.pack('>bbb', led.np[0][1], led.np[0][0], led.np[0][2])
         await rq.w(b);
         await asyncio.sleep(0.5)
 
-info_tasks = {}
 @web.route_ws('/infos.ws')
-async def info_ws(rq, evt):
-    global info_tasks
+async def infos_ws(rq, evt):
+    global infos_ws_data
     t = evt['type']
     if t == 'open':
-        info_tasks[rq] = asyncio.create_task(info_ws_task(rq))
+        infos_ws_data[rq] = { 'task': asyncio.create_task(infos_ws_task(rq)), 'mask': 1 }
+
+    elif t == 'bytes':
+        infos_ws_data[rq]['mask'] = evt['data'][-1]
 
     elif t == 'close':
-        info_tasks[rq].cancel()
-        del info_tasks[rq]
+        infos_ws_data[rq]['task'].cancel()
+        del infos_ws_data[rq]
+
 
 @web.route('GET', '/position/position.txt')
 async def pos_handler(rq):
