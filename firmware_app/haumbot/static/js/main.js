@@ -193,6 +193,13 @@ infos_ws.addEventListener("message", e => {
 	}
 });
 
+const position_reset = document.getElementById('position_reset');
+position_reset.addEventListener('click', async () => {
+	position_reset.disabled = true;
+	await fetch('/position/reset')
+	position_reset.disabled = false;
+});
+
 const motors_joystick = document.getElementById('motors_joystick');
 {
 	const btnsz = 40;
