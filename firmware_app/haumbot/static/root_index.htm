@@ -1,89 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="dark">
 	<head>
 		<title>MinHAUMtaure</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="/static/coloris/coloris.min.css">
+		<link rel="stylesheet" type="text/css" href="/static/coloris/coloris.min.css" />
+		<link rel="stylesheet" type="text/css" href="/static/css/pico.conditional.green.min.css" />
+		<link rel="stylesheet" type="text/css" href="/static/css/app.css" />
 		<script type="text/javascript" src="/static/coloris/coloris.min.js"></script>
 		<script type="module" src="/static/js/main.js"> </script>
-		<style>
-		body {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			height: 100vh;
-			margin: 0;
-			font-family: Arial, sans-serif;
-			background-color: #333;
-		}
-		.box {
-			background: #eee url("/static/bg.webp") no-repeat bottom right;
-			padding: 20px;
-			border: 1px solid #ccc;
-			border-radius: 20px;
-			min-height: 800px;
-			min-width: 650px;
-		}
-		.clr-field button {
-			width: 22px;
-			height: 22px;
-			left: 5px;
-			right: auto;
-			border-radius: 50%;
-		}
-		.clr-field input {
-			width: 150px;
-			height: 32px;
-			padding: 0 10px;
-			padding-left: 10px;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-			padding-left: 36px;
-		}
-		fieldset {
-			width: fit-content;
-		}
-		#ledcolor_info {
-			display: inline-block;
-			width: 40px;
-			height: 40px;
-			border: 2px solid black;
-			border-radius: 50%;
-		}
-		</style>
 	</head>
 	<body>
-		<div class="box">
+		<header class="pico">
+			<details class="dropdown">
+				<summary>Sections…</summary>
+				<ul id="ul_header_menu"></ul>
+			</details>
+			<h1>MinHAUMtaure</h1>
+		</header>
+
+		<section data-title="Led">
+			<div class="grid">
+				<form method="POST" action="/led" id="led_form">
+					<fieldset role="group">
+						<input type="color" name="ledcolor" value="#000000" />
+						<input type="submit" />
+					</fieldset>
+				</form>
+				<p><span id="ledcolor_info"></span></p>
+			</div>
+		</section>
+
+		<section data-title="Moteurs">
+			<div class="grid">
+				<p><canvas id="motors_joystick" width="400" height="400"></canvas></p>
+				<p>
+					<input type="range" min="-100" max="100" value="0" id="motors_ml" /><br/>
+					<input type="range" min="-100" max="100" value="0" id="motors_mr" /><br/>
+					<input type="button" id="motors_stop" value="Stop" />
+				</p>
+			</div>
+		</section>
+
+		<section data-title="Position">
+			<p>
+				<input type="range" min="190" max="1000" value="1000" id="map_scale" /><br/>
+				<canvas id="map" width="800" height="800"></canvas>
+			</p>
+		</section>
+
+		<section data-title="Liens (à enlever)">
 			<p>
 				<a href="/api">/api</a> ;
 				<a href="/led">/led</a> ;
 				<a href="/position.txt">/position.txt</a> ;
 				<a href="/position_reset">/position_reset</a> ;
 			</p>
-			<form method="POST" action="/led" id="led_form">
-				<p>
-					<input type="color" name="ledcolor" value="#000000" />
-					<input type="submit" />
-				</p>
-				<div id="ledcolor_info"></div>
-			</form>
-		<form>
-				<fieldset>
-					<legend>Motors</legend>
-					<input type="range" min="-100" max="100" value="0" id="motors_ml" /><br/>
-					<input type="range" min="-100" max="100" value="0" id="motors_mr" /><br/>
-					<button id="motors_stop">Stop</button>
-				</fieldset>
-			</form>
-			<p>
-				<canvas id="map" width="800" height="800"></canvas>
-				<input type="range" min="190" max="1000" value="1000" id="map_scale" /><br/>
-			</p>
-			<p>
-				<canvas id="motors_joystick" width="400" height="400"></canvas>
-			</p>
-		</div>
-
+		</section>
 	</body>
 </html>

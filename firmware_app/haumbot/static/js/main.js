@@ -1,3 +1,21 @@
+const sections = document.querySelectorAll('section[data-title]');
+const ul_header_menu = document.getElementById('ul_header_menu');
+for (const s of sections) {
+	const h2 = document.createElement('h2');
+	const title = s.dataset.title;
+	h2.innerText = title;
+	s.insertBefore(h2, s.firstChild);
+	s.classList.add('pico');
+	const li = document.createElement('li');
+	ul_header_menu.append(li);
+	const label = document.createElement('label');
+	li.append(label);
+	const checkbox = document.createElement('input');
+	checkbox.type = 'checkbox';
+	label.append(checkbox, title);
+	checkbox.addEventListener('click', e => s.classList.toggle('opened', e.target.checked));
+}
+
 const cs = document.querySelectorAll('input[type=color]');
 for (const c of cs) {
 	c.type = 'text';
