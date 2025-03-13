@@ -17,43 +17,45 @@ async def root_handler(rq):
     await rq.sendfile(rq.path[8:], 'haumbot/static/')
 
 
-# curl -X POST -i 'http://ip_esp/api' --data '{"LED":{"r":0,"g":0,"b":0}}'
-@web.route('POST', '/api')
-async def api_post_handler(rq):
-    led_val = await rq.decode_postjson_data()
-    if not led_val:
-        await rq.return_status(400)
-        await rq.w('Wrong format')
-        return
-    try:
-        led.np[0] = (led_val['LED']['g'],led_val['LED']['r'] , led_val['LED']['b'])
+# curl -X POST -H 'Content-Type: application/json' --data '{"LED": {"r": 64, "g": 0, "b": 0}}' http://ip_esp/led/set_color
+# curl -X POST --data 'ledcolor=#cc0080' http://ip_esp/led/set_color
+@web.route('POST', '/led/set_color')
+async def led_post_handler(rq):
+    if rq.is_postform():
+        form = await rq.decode_postform_data()
+        color = form.get('ledcolor')
+        if not color:
+            await rq.return_status(400)
+            await rq.w('Need ledcolor')
+            return
+        try:
+            if len(color) != 7: raise ValueError
+            if color[0] != '#': raise ValueError
+            color = int(color[1:], 16)
+        except ValueError:
+            await rq.return_status(400)
+            await rq.w('Invalid value')
+            return
+        led.np[0] = ((color >> 8 & 0xFF), (color >> 16), (color & 0xFF))
         led.new_color.set()
         await rq.w('OK')
-    except KeyError:
+    elif rq.is_postjson():
+        led_val = await rq.decode_postjson_data()
+        if not led_val:
+            await rq.return_status(400)
+            await rq.w('Wrong format')
+            return
+        try:
+            led.np[0] = (led_val['LED']['g'],led_val['LED']['r'] , led_val['LED']['b'])
+            led.new_color.set()
+            await rq.w('OK')
+        except KeyError:
+            await rq.return_status(400)
+            await rq.w('KeyError')
+    else:
         await rq.return_status(400)
-        await rq.w('KeyError')
+        await rq.w('No POST data')
 
-
-# curl -X POST -i 'http://ip_esp/led' --data 'ledcolor=#666666'
-@web.route('POST', '/led')
-async def led_post_handler(rq):
-    form = await rq.decode_postform_data()
-    color = form.get('ledcolor')
-    if not color:
-        await rq.return_status(400)
-        await rq.w('Need ledcolor')
-        return
-    try:
-        if len(color) != 7: raise ValueError
-        if color[0] != '#': raise ValueError
-        color = int(color[1:], 16)
-    except ValueError:
-        await rq.return_status(400)
-        await rq.w('Invalid value')
-        return
-    led.np[0] = ((color >> 8 & 0xFF), (color >> 16), (color & 0xFF))
-    led.new_color.set()
-    await rq.w('OK')
 
 @web.route_ws('/motors.ws')
 async def motor_ws(rq, evt):
