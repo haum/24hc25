@@ -74,6 +74,7 @@ motors_stop.addEventListener('click', e => {
 const map_canvas = document.getElementById('map');
 const map_scale_range = document.getElementById('map_scale');
 const pos_hist = [];
+const text_color = getComputedStyle(map_canvas).color;
 const map_draw = (x, y, a) => {
 	const ctx = map_canvas.getContext("2d");
 	const w = map_canvas.width;
@@ -85,6 +86,7 @@ const map_draw = (x, y, a) => {
 	if (pos_hist.length > 10) pos_hist.pop();
 
 	ctx.font = '30px sans-serif';
+	ctx.fillStyle = text_color;
 	ctx.textAlign = 'right';
 	ctx.fillText(Math.round(x*1000) + ' mm <X>', w-5, 30);
 	ctx.fillText(Math.round(y*1000) + ' mm <Y>', w-5, 60);
