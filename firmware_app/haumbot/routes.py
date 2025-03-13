@@ -106,5 +106,8 @@ async def pos_handler(rq):
 
 @web.route('GET', '/position/reset')
 async def position_reset_handler(rq):
-    position.reset()
-    await rq.w('OK')
+    try:
+        position.reset()
+        await rq.w('OK')
+    except:
+        await rq.w('KO')
