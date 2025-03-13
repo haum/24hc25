@@ -17,11 +17,6 @@ async def root_handler(rq):
     await rq.sendfile(rq.path[8:], 'haumbot/static/')
 
 
-@web.route('GET', '/api')
-async def api_get_handler(rq):
-    await rq.sendfile('haumbot/static/api_index.htm')
-
-
 # curl -X POST -i 'http://ip_esp/api' --data '{"LED":{"r":0,"g":0,"b":0}}'
 @web.route('POST', '/api')
 async def api_post_handler(rq):
@@ -37,11 +32,6 @@ async def api_post_handler(rq):
     except KeyError:
         await rq.return_status(400)
         await rq.w('KeyError')
-
-
-@web.route('GET', '/led')
-async def led_get_handler(rq):
-    await rq.sendfile('haumbot/static/led_index.htm')
 
 
 # curl -X POST -i 'http://ip_esp/led' --data 'ledcolor=#666666'
@@ -63,7 +53,7 @@ async def led_post_handler(rq):
         return
     led.np[0] = ((color >> 8 & 0xFF), (color >> 16), (color & 0xFF))
     led.new_color.set()
-    await rq.sendfile('haumbot/static/led_index.htm')
+    await rq.w('OK')
 
 @web.route_ws('/motors.ws')
 async def motor_ws(rq, evt):
