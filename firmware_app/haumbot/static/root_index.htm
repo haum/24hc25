@@ -66,17 +66,15 @@
 					<input type="color" name="ledcolor" value="#000000" />
 					<input type="submit" />
 				</p>
-				<p><div id="ledcolor_info" /></div></p>
+				<div id="ledcolor_info"></div>
 			</form>
-			<form>
-				<p>
-					<fieldset>
-						<legend>Motors</legend>
-						<input type="range" min="-100" max="100" value="0" id="motors_ml" /><br/>
-						<input type="range" min="-100" max="100" value="0" id="motors_mr" /><br/>
-						<button id="motors_stop">Stop</button>
-					</fieldset>
-				</p>
+		<form>
+				<fieldset>
+					<legend>Motors</legend>
+					<input type="range" min="-100" max="100" value="0" id="motors_ml" /><br/>
+					<input type="range" min="-100" max="100" value="0" id="motors_mr" /><br/>
+					<button id="motors_stop">Stop</button>
+				</fieldset>
 			</form>
 			<p>
 				<canvas id="map" width="800" height="800"></canvas>
