@@ -90,7 +90,7 @@ async def info_ws(rq, evt):
         info_tasks[rq].cancel()
         del info_tasks[rq]
 
-@web.route('GET', '/position.txt')
+@web.route('GET', '/position/position.txt')
 async def pos_handler(rq):
     await rq.header_text()
     await rq.w("Position:\r\n{} mm\r\n{} mm\r\n{} degrees".format(
@@ -99,7 +99,7 @@ async def pos_handler(rq):
         round(position.a * 180 / pi)
     ))
 
-@web.route('GET', '/position_reset')
+@web.route('GET', '/position/reset')
 async def position_reset_handler(rq):
     position.reset()
-    await rq.redirect('/position.txt')
+    await rq.w('OK')
