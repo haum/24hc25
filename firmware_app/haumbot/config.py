@@ -1,17 +1,30 @@
 import json
 
 config = {
-        'pin_led': 0,
-        'pin_ml': 1,
-        'pin_mr': 2,
-        'pin_i2c_l_scl': 10,
-        'pin_i2c_l_sda': 7,
-        'pin_i2c_r_scl': 6,
-        'pin_i2c_r_sda': 5,
-        'ml_inv': True,
-        'mr_inv': False,
-        'Kw': 0.00073885,
-        'Kv': 0.0005,
+    'pin_led': 0,
+    'pin_ml': 1,
+    'pin_mr': 2,
+    'pin_i2c_l_scl': 10,
+    'pin_i2c_l_sda': 7,
+    'pin_i2c_r_scl': 6,
+    'pin_i2c_r_sda': 5,
+    'ml_inv': True,
+    'mr_inv': False,
+    'Kw': 0.00073885,
+    'Kv': 0.0005,
+}
+config_types = {
+    'pin_led': int,
+    'pin_ml': int,
+    'pin_mr': int,
+    'pin_i2c_l_scl': int,
+    'pin_i2c_l_sda': int,
+    'pin_i2c_r_scl': int,
+    'pin_i2c_r_sda': int,
+    'ml_inv': bool,
+    'mr_inv': bool,
+    'Kw': float,
+    'Kv': float,
 }
 
 def load():
@@ -31,5 +44,9 @@ def get(k, dv=None):
         return config[k]
     else:
         return dv
+
+def set(k, v):
+    if k in config:
+        config[k] = config_types[k](v)
 
 load()
