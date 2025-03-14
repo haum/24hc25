@@ -27,6 +27,7 @@ module washer_clip_cap(wdim, hole=false) {
 		}
 		T(x=4) cuboid([4, w, h+eps], rounding=2, except=[TOP, BOTTOM], anchor=RIGHT); // Cut top
 		zcyl(d1=od-0.05, d2=od+0.15, h=wh+0.1); // Washer cut
+		zcyl(d=wdim[0]+1, h=h+0.1); // Additional hole for axis
 	}
 }
 
