@@ -1,3 +1,5 @@
+import { form_post } from "./main.js";
+
 const cs = document.querySelectorAll('input[type=color]');
 for (const c of cs) {
 	c.type = 'text';
@@ -28,15 +30,7 @@ Coloris.setInstance('input[data-coloris=convert]', {
 const led_form = document.getElementById("led_form");
 led_form.addEventListener('submit', e => {
 	e.preventDefault();
-	const data = new URLSearchParams();
-	for (const pair of new FormData(led_form)) {
-		data.append(pair[0], pair[1]);
-	}
-	fetch(led_form.action, {
-		method: 'post',
-		headers: { "Content-Type": "application/x-www-form-urlencoded" },
-		body: data
-	});
+	form_post(led_form);
 });
 
 const ledcolor_info = document.getElementById('ledcolor_info');
