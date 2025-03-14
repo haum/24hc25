@@ -125,5 +125,6 @@ module measure_assembly() {
 		color("#ffcc0080") T(8.3, 8.3, 10.5) nut("M3");
 		color("#000") tire();
 		zflip_copy() color("#ccc") T_measure_clip() washer_M8_A();
+		zflip_copy() T_measure_clip() zrot(-90) washer_clip_cap(washer_M8_A_dim());
 	} 
 }
