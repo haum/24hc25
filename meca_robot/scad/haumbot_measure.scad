@@ -82,17 +82,11 @@ module measure_base() {
 		linear_extrude(3) measure_base_shape(); // Base
 		zrot_copies(n=2) T_measure() {
 			cuboid([26, 20, 10.5]); // Hole for clips
-			cuboid([45, 10, 6], except=[BACK, FRONT], rounding=3); // Hole for wheels
+			cuboid([45, 10, 5.4], except=[BACK, FRONT], rounding=2.5); // Hole for wheels
 			zcyl(h=10, d=20, anchor=BOTTOM); // Hole in front of PCB holder
-			T(z=11) cuboid([25, 25, 4]); // Hole for measuring PCB
+			T(z=11) cuboid([25, 25, 7]); // Hole for measuring PCB
 		}
-		ycopies(7, 3) T(x=21, z=-eps) zcyl(d=3.4, h=3+2*eps, anchor=BOTTOM); // Elastic band holes
-	}
-
-	// Elastic band hooks
-	ycopies(7, 3) T(x=16, z=3) difference() {
-		cuboid([2, 5, 3], anchor=BOTTOM);
-		ycopies(5, 2) T(z=1.5) xcyl(h=4, d=1.5);
+		T(x=21, z=-eps) zcyl(d=3.4, h=3+2*eps, anchor=BOTTOM); // Weight option holes
 	}
 
 	// Clips and PCB holders
@@ -104,6 +98,14 @@ module measure_base() {
 		T_measure_clip() T(z=4) board_holder(); // PCB holder
 	}
 	xcopies(26, 2) T(z=-7) prismoid(size1=[2, 17], size2=[2, 10], h=11, anchor=BOTTOM); // Holder reinforcement bars
+	yflip_copy() T_measure() xflip_copy() T(x=-11.5, y=1) zflip_copy() T_measure_clip() difference() { // Exterior clips reinforcement
+		cuboid([13,6,2.6], rounding=2, edges=[BACK+LEFT, FRONT+LEFT], anchor=RIGHT+FRONT);
+		cuboid([2,5,3], anchor=RIGHT+FRONT);
+	}
+	yflip_copy() T_measure() T(x=23.5, y=4) cuboid([1.5,3.8,6]); // Exterior clips reinforcement bridge
+
+	// Loop for wires
+	T(x=-26, y=0, z=4.5, ry=25) left_half(x=2) torus(id=14, od=14+6);
 
 	// Pivot bars
 	yflip_copy() difference() {
