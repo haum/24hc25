@@ -2,6 +2,7 @@ import './infos.js'
 import './led.js'
 import './motors.js'
 import './position.js'
+import './config.js'
 
 const sections = document.querySelectorAll('section[data-title]');
 const ul_header_menu = document.getElementById('ul_header_menu');
