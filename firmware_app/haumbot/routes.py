@@ -1,6 +1,7 @@
 import asyncio
 import json
 import struct
+import haumbot.config as conf
 import haumbot.led as led
 import haumbot.motors as motors
 import haumbot.position as position
@@ -109,3 +110,19 @@ async def position_reset_handler(rq):
         await rq.w('OK')
     except:
         await rq.w('KO')
+
+@web.route('GET', '/config/all.json')
+async def config_all_handler(rq):
+    await rq.header_json()
+    await rq.w(json.dumps(conf.config))
+
+@web.route('POST', '/config/set')
+async def config_set_handler(rq):
+    d = await rq.decode_postform_data()
+    for k, v in d.items():
+        try:
+            conf.set(k, v)
+        except:
+            pass
+    conf.save()
+    await config_all_handler(rq)
