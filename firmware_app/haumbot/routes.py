@@ -36,8 +36,7 @@ async def led_post_handler(rq):
             await rq.return_status(400)
             await rq.w('Invalid value')
             return
-        led.np[0] = ((color >> 8 & 0xFF), (color >> 16), (color & 0xFF))
-        led.new_color.set()
+        led.set_color(((color >> 16), (color >> 8 & 0xFF), (color & 0xFF)))
         await rq.w('OK')
     elif rq.is_postjson():
         led_val = await rq.decode_postjson_data()
@@ -46,8 +45,7 @@ async def led_post_handler(rq):
             await rq.w('Wrong format')
             return
         try:
-            led.np[0] = (led_val['LED']['g'],led_val['LED']['r'] , led_val['LED']['b'])
-            led.new_color.set()
+            led.set_color((led_val['LED']['r'], led_val['LED']['g'], led_val['LED']['b']))
             await rq.w('OK')
         except KeyError:
             await rq.return_status(400)
@@ -76,7 +74,7 @@ async def infos_ws_task(rq):
         mask = info['mask']
         b = int(mask).to_bytes()
         if mask & 1: b += struct.pack('>fff', position.x, position.y, position.a)
-        if mask & 2: b += struct.pack('>bbb', led.np[0][1], led.np[0][0], led.np[0][2])
+        if mask & 2: b += struct.pack('>bbb', *led.get_color())
         await rq.w(b);
         await asyncio.sleep(0.5)
 

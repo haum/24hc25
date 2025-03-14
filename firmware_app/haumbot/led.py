@@ -9,6 +9,13 @@ np[0] = (0, 0, 0)
 np.write()
 new_color = asyncio.Event()
 
+def get_color():
+    return (np[0][1], np[0][0], np[0][2])
+
+def set_color(rgb):
+    np[0] = (rgb[1], rgb[0], rgb[2])
+    new_color.set()
+
 async def update_led():
     while True:
         await new_color.wait() # wait for the event to be set
