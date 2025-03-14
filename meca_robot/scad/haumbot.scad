@@ -6,6 +6,7 @@ use <haumbot_propulsion.scad>
 
 show_max_volume_cube = false;
 show_max_volume_cylinder = false;
+angle_measure_plate = 0; // [-20:4]
 
 display = 0; // [0: Assembly, 1: Base shape, 2: Plate base shape, 3: Back shape, 4: Back plate, 5: Front structure]
 switch(display) {
@@ -121,7 +122,9 @@ module assembly() {
 	T_propulsion(true) propulsion_bracket(true);
 	T_propulsion() propulsion_assembly_nobracket();
 	T_propulsion(true) propulsion_assembly_nobracket(true);
-	T(z=-(1-cos(20))*20) measure_assembly();
+
+	T(x=-31.7, y=23.5, z=3.9, ry=-angle_measure_plate, tx=31.7, ty=-23.5, tz=-3.9)
+		T(z=-(1-cos(20))*20) measure_assembly();
 
 	T_backplane() T(x=60, rz=90) color("#ffcc0080") battery_holder();
 	T_backplane() T(x=25, y=18, z=1, rz=180) color("#ffcc0080") battery_charger();
