@@ -169,8 +169,21 @@ const map_draw = (x, y, a) => {
 
 	ctx.restore();
 };
+document.body.addEventListener('infos_position', e => {
+	 map_draw(...e.detail);
+});
 
 const ledcolor_info = document.getElementById('ledcolor_info');
+document.body.addEventListener('infos_led', e => {
+	let color_hex = '#';
+	for (const v of e.detail) {
+		const sv = v.toString(16);
+		if (sv.length == 1) color_hex += '0';
+		color_hex += sv;
+	}
+	ledcolor_info.style.backgroundColor = color_hex;
+});
+
 const INFO_POSITION = 0x01;
 const INFO_LED = 0x02;
 let infos_ws = new WebSocket('ws://' + document.location.host + '/infos.ws');
@@ -193,21 +206,20 @@ infos_ws.addEventListener("message", e => {
 		const position_a = view.getFloat32(pos + 8);
 		pos += 3*4;
 
-		map_draw(position_x, position_y, position_a);
+		document.body.dispatchEvent(new CustomEvent('infos_position', {
+			'detail': [position_x, position_y, position_a]
+		}));
 	}
 
 	if (mask & INFO_LED) {
 		const led_r = view.getUint8(pos + 0);
 		const led_g = view.getUint8(pos + 1);
 		const led_b = view.getUint8(pos + 2);
+		pos += 3;
 
-		let color_hex = '#';
-		for (const v of [led_r, led_g, led_b]) {
-			const sv = v.toString(16);
-			if (sv.length == 1) color_hex += '0';
-			color_hex += sv;
-		}
-		ledcolor_info.style.backgroundColor = color_hex;
+		document.body.dispatchEvent(new CustomEvent('infos_led', {
+			'detail': [led_r, led_g, led_b]
+		}));
 	}
 });
 
