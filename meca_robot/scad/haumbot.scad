@@ -63,7 +63,7 @@ module back_shape() {
 }
 
 module front_structure() {
-	module p() T(x=25, y=12, z=15) sphere(d=4);
+	module p() T(x=26, y=12, z=15) sphere(d=4);
 	module T_hole_sensor() T(x=35-3/2-1.5/2, y=10, z=0.5) children();
 	module T_hole_side() T(x=21, y=33, z=-3.5) children();
 	module T_hole_front() T(x=30, y=20, z=-3.5) children();
@@ -94,7 +94,7 @@ module front_structure() {
 		chain_hull() {
 			T_hole_side() zcyl(d=8, h=3);
 			T_hole_side() T(rz=-135, tx=5) zcyl(d=4, h=3);
-			p();
+			T_hole_top() T(z=-6) sphere(d=4);
 		}
 		T_hole_side() rm() zcyl(d=3.4, h=4);
 		T_hole_side() T(rz=30-5) nut_trap_inline(3, "M3", $slop=0.1, anchor=BOTTOM);
