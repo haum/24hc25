@@ -7,15 +7,23 @@ from machine import Pin
 LED_builtin = Pin(8, Pin.OUT)
 
 wlan = network.WLAN(network.STA_IF)
-networks = []
 mac = wlan.config('mac')
 hostname = 'haumbot-' + ''.join('{:02x}'.format(b) for b in mac[3:])
-try:
-    with open('wifi.dat', 'r') as f:
-        for line in f:
-            networks.append(line.strip().split(';', 1))
-except OSError:
-    pass
+
+def load_networks():
+    res = []
+    try:
+        with open('wifi.dat', 'r') as f:
+            for line in f:
+                res.append(line.strip().split(';', 1))
+    except OSError:
+        pass
+    return res
+
+def save_networks(networks):
+    with open('wifi.dat', 'w') as f:
+        for n in networks:
+            f.write(n[0] + ';' + n[1] + '\n')
 
 def print_wlaninfo():
     if wlan.isconnected():
@@ -39,7 +47,7 @@ def first_connect():
             wlan.config(hostname=hostname)
         nets = wlan.scan()
         ssids = tuple(net[0] for net in nets)
-        for n in networks:
+        for n in load_networks():
             s = n[0].encode()
             if s in ssids:
                 print(f'Found network "{n[0]}", try connecting')
@@ -80,6 +88,8 @@ async def connect(ssid, passwd):
 
     print_wlaninfo()
 
+def disconnect():
+    wlan.disconnect()
 
 async def autoconnect():
     if wlan.isconnected():
@@ -98,7 +108,7 @@ async def autoconnect():
         nets = wlan.scan()
         ssids = tuple(net[0] for net in nets)
 
-        for n in networks:
+        for n in load_networks():
             s = n[0].encode()
             if s in ssids:
                 print(f'Found network "{n[0]}", try connecting')
