@@ -26,6 +26,7 @@ config_types = {
     'Kw': float,
     'Kv': float,
 }
+notify_changes_cbs = {}
 
 def load():
     global config
@@ -46,7 +47,17 @@ def get(k, dv=None):
         return dv
 
 def set(k, v):
-    if k in config:
-        config[k] = config_types[k](v)
+    if not k in config: return
+    v = config_types[k](v)
+    if v == config[k]: return
+    config[k] = v
+    if k in notify_changes_cbs:
+        for cb in notify_changes_cbs[k]:
+            cb()
+
+def notify_changes(k, fct):
+    if not k in notify_changes_cbs:
+        notify_changes_cbs[k] = []
+    notify_changes_cbs[k].append(fct)
 
 load()
