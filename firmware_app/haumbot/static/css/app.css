@@ -33,8 +33,7 @@ h2 span:hover {
 
 .clr-field button, .pico .clr-field button {
 	height: 32px;
-	right: 10px;
-	top: 28px;
+	right: 20px;
 	z-index: 1;
 	color: unset;
 	border: 1px solid black;
