@@ -16,6 +16,21 @@ section.opened {
 
 h1, h2, h3 { text-align: left; }
 
+h2 {
+	display: flex;
+	justify-content: space-between;
+}
+h2 span {
+	display: inline-block;
+	width: 2em;
+	text-align: center;
+	opacity: 0.5;
+	cursor: pointer;
+}
+h2 span:hover {
+	opacity: 1;
+}
+
 .clr-field button, .pico .clr-field button {
 	height: 32px;
 	right: 10px;
