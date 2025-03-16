@@ -63,8 +63,15 @@ def reset():
     Kw = conf.get('Kw')
     Kv = conf.get('Kv')
 
+def conf_changed():
+    global Kw, Kv
+    Kw = conf.get('Kw')
+    Kv = conf.get('Kv')
+
 def start_measure():
     timer.deinit()
+    conf.notify_changes('Kw', conf_changed)
+    conf.notify_changes('Kv', conf_changed)
 
     try:
         reset()
