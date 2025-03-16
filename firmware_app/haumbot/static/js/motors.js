@@ -59,10 +59,12 @@ const joystick_draw = () => {
 	ctx.stroke();
 }
 const updatePosition = e => {
+	const clientX = e.clientX || e.touches[0].clientX;
+	const clientY = e.clientX || e.touches[0].clientY;
 	const r = motors_joystick.getBoundingClientRect();
 	const kw = r.width/2 - btnsz;
-	let vx = Math.max(-1, Math.min((e.clientX - r.left - r.width/2) / kw, 1));
-	let vy = Math.max(-1, Math.min((e.clientY - r.top - r.height/2) / kw, 1));
+	let vx = Math.max(-1, Math.min((clientX - r.left - r.width/2) / kw, 1));
+	let vy = Math.max(-1, Math.min((clientY - r.top - r.height/2) / kw, 1));
 	if (vx*vx + vy*vy > 1) {
 		const a = Math.atan2(vy, vx);
 		vx = Math.cos(a);
