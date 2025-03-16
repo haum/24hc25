@@ -60,7 +60,7 @@ const joystick_draw = () => {
 }
 const updatePosition = e => {
 	const clientX = e.clientX || e.touches[0].clientX;
-	const clientY = e.clientX || e.touches[0].clientY;
+	const clientY = e.clientY || e.touches[0].clientY;
 	const r = motors_joystick.getBoundingClientRect();
 	const kw = r.width/2 - btnsz;
 	let vx = Math.max(-1, Math.min((clientX - r.left - r.width/2) / kw, 1));
