@@ -1,4 +1,4 @@
-# 2025-03-10
+# 2025-03-11
 
 ## Sujet
 
@@ -54,3 +54,26 @@
 ## Divers
 
 * Canne à pêche
+
+# 2025-03-16
+
+## Sujet
+
+* Histoire et diapos terminées et envoyées
+
+## Code
+
+* Avance, mais pas terminé
+
+## Robot
+
+* Deux robots entiers (moins quelques clips) imprimés, quelques soucis de qualité mais ça ira.
+* Le scotch double-face est légèrement conducteur, il faut donc imprimer un support pour la platine.  Dag-Erling s'en charge.
+
+## Labyrinthe
+
+* Découpe des plateaux en cours
+
+## Divers
+
+* Séb a des cannes à pêche au canard
