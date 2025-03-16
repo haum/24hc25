@@ -50,5 +50,22 @@
 
 		<section data-title="Config" id="config_section">
 		</section>
+
+		<section data-title="Wifi">
+			<h3>Enregistrés</h3>
+			<form action="/wlan/sort" method="POST" id="form_wlan_sort"></form>
+			<h3>Ajouter/Modifier</h3>
+			<form action="/wlan/set_password" method="POST" id="form_wlan_pass">
+				<div role="group">
+					<input type="text" name="ssid" placeholder="SSID" />
+					<input type="text" name="password" placeholder="Mot de passe" />
+					<input type="submit" value="Ajouter/Modifier" />
+				</div>
+			</form>
+			<h3>Déconnecter</h3>
+			<form action="/wlan/disconnect" method="GET" id="form_wlan_disconnect">
+				<input type="submit" value="Déconnecter" />
+			</form>
+		</section>
 	</body>
 </html>
