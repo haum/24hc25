@@ -10,6 +10,12 @@ wlan = network.WLAN(network.STA_IF)
 mac = wlan.config('mac')
 hostname = 'haumbot-' + ''.join('{:02x}'.format(b) for b in mac[3:])
 
+def led_state(on):
+    if on == None:
+        LED_builtin.value(not LED_builtin.value())
+    else:
+        LED_builtin.value(not on)
+
 def load_networks():
     res = []
     try:
@@ -38,40 +44,31 @@ def print_wlaninfo():
     else:
         print("Not connected")
 
-def first_connect():
-        if not wlan.active():
-            wlan.active(True)
-        if wlan.status() != network.STAT_IDLE:
-            wlan.disconnect()
-        if hostname:
-            wlan.config(hostname=hostname)
-        nets = wlan.scan()
-        ssids = tuple(net[0] for net in nets)
-        for n in load_networks():
-            s = n[0].encode()
-            if s in ssids:
-                print(f'Found network "{n[0]}", try connecting')
-                wlan.connect(*n)
-                while not wlan.isconnected():
-                    print('.', end='')
-                    LED_builtin.value(not LED_builtin.value())
-                    time.sleep_ms(100)
-                print('\n\r')
-                LED_builtin.off() # LED_builtin on
-                print_wlaninfo()
+def first_connect(): # use autoconnect coroutine
+    t = asyncio.create_task(autoconnect())
+    async def stop_if_connected():
+        while True:
+            if wlan.isconnected():
+                t.cancel()
                 break
-        else:
-            print(f'No known network in {ssids}')
-            raise ValueError
+            else:
+                await asyncio.sleep_ms(100)
+    asyncio.create_task(stop_if_connected())
+    try:
+        asyncio.get_event_loop().run_forever()
+    except KeyboardInterrupt:
+        pass
 
 async def connect(ssid, passwd):
     wlan.connect(ssid, passwd)
     while True:
         status = wlan.status()
         if status == network.STAT_CONNECTING or status == network.STAT_IDLE:
-            await asyncio.sleep_ms(10)
+            await asyncio.sleep_ms(100)
+            led_state(None)
         else:
             break
+    led_state(False)
 
     if status == network.STAT_ASSOC_FAIL:
         print('Wifi: ASSOC_FAIL')
@@ -97,7 +94,8 @@ async def autoconnect():
 
     while True:
         if wlan.isconnected():
-            await asyncio.sleep(5)
+            led_state(True)
+            await asyncio.sleep(1)
             continue
         if not wlan.active():
             wlan.active(True)
@@ -116,4 +114,4 @@ async def autoconnect():
                 break
         else:
             print(f'No known network in {ssids}')
-        await asyncio.sleep(5)
+        await asyncio.sleep(1)
