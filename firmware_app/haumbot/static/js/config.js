@@ -11,6 +11,8 @@ const c_pins = [
 	['pin_i2c_l_sda', 'Pin I2C SDA roue gauche'],
 	['pin_i2c_r_scl', 'Pin I2C SCL roue droite'],
 	['pin_i2c_r_sda', 'Pin I2C SDA roue droite'],
+	['pin_i2c_rangefinder_scl', 'Pin I2C SCL télémètre'],
+	['pin_i2c_rangefinder_sda', 'Pin I2C SDA télémètre'],
 	['ml_inv', 'Moteur gauche inversé'],
 	['mr_inv', 'Moteur droit inversé'],
 ];
