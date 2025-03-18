@@ -27,9 +27,27 @@ def start():
     asyncio.create_task(wlan.autoconnect())
     asyncio.create_task(web.start())
     asyncio.create_task(led.update_led())
+    asyncio.create_task(check_stdin())
     position.start_measure()
 
     try:
         asyncio.get_event_loop().run_forever()
     except KeyboardInterrupt:
         web.stop()
+
+async def check_stdin():
+    import asyncio, select, sys
+    import haumbot.wlan
+    while True:
+        w = False
+        while select.select([sys.stdin], [], [], 0)[0]:
+            _ = sys.stdin.read(1)
+            w = True
+        if w:
+            print('\nOh le petit malin !')
+            if haumbot.wlan.wlan.isconnected():
+                ip = haumbot.wlan.wlan.ifconfig()[0]
+                print(f"C'est ça que tu cherches : http://{ip}/ ?")
+            else:
+                print("Le robot n'est pas connecté.")
+        await asyncio.sleep_ms(200)
