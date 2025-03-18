@@ -8,6 +8,8 @@ config = {
     'pin_i2c_l_sda': 7,
     'pin_i2c_r_scl': 6,
     'pin_i2c_r_sda': 5,
+    'pin_i2c_rangefinder_scl': 21,
+    'pin_i2c_rangefinder_sda': 20,
     'ml_inv': True,
     'mr_inv': False,
     'Kw': 0.00073885,
