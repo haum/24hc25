@@ -33,9 +33,10 @@ module base_shape() {
 		}
 		yflip_copy() T(x=-11.5, y=77/2+eps) rect([22, 11.2], rounding=[-3, -3, 1, 1], anchor=BACK+LEFT); // Sides holes
 		hull() { // Measure wheels hole
-			rect([50+4,36+4], rounding=6);
+			rect([50+5,36+5], rounding=6);
 			xcopies(20,2) ycopies(38, 2) circle(d=8);
 		}
+		T(x=-25) circle(d=15); // Wires hole
 		T(x=-26) ycopies(77-11, 2) { // Bracket mounting
 			xcopies(10, 2) circle(d=2.3);
 			xcopies(10, 3) circle(d=3.4);
