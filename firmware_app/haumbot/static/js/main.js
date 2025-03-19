@@ -3,6 +3,7 @@ import './led.js'
 import './motors.js'
 import './position.js'
 import './config.js'
+import './wheels.js'
 import './wlan.js'
 
 const sections = document.querySelectorAll('section[data-title]');
