@@ -6,19 +6,23 @@ class Servo:
         self.inv = -1 if inv else 1
         self.pwm = machine.PWM(pin, freq=50, duty_ns=self._p(0))
         self.stop()
+        self.p = 0
 
     def _p(self, p):
         return int(min(max(-1.0, p*self.inv), 1.0) * 265000 + 1415000)
 
     def _start(self, p=0):
+        self.p = p
         self.pwm.init(freq=50, duty_ns=self._p(p))
         self.on = True
 
     def stop(self):
         self.pwm.deinit()
+        self.p = 0
         self.on = False
 
     def go(self, p):
+        self.p = p
         if not self.on:
             if p != 0:
                 self._start(p)
