@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-OPT_IPG=$(ip a | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){2}[0-9]*).*/\2.0\/24/p')
+OPT_IPG=$(ip a | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){2}[0-9]*).*/\2.0\/24/p' | head -1)
 OPT_FILTER="haumbot"
 
 while getopts hf:g: opt; do case $opt in
