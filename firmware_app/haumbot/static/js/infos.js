@@ -6,8 +6,10 @@ const INFOS_WHEELS = 0x08;
 let infos_ws = new WebSocket('ws://' + document.location.host + '/infos.ws');
 infos_ws.binaryType = "arraybuffer";
 infos_ws.addEventListener("open", () => {
-	const buf = new Uint8Array(1);
-	buf[0] = INFOS_POSITION | INFOS_LED | INFOS_MOTORS | INFOS_WHEELS;
+	const buf = new Uint8Array(2);
+	const ms = 500;
+	buf[0] = ms / 10;
+	buf[1] = INFOS_POSITION | INFOS_LED | INFOS_MOTORS | INFOS_WHEELS;
 	infos_ws.send(buf);
 });
 infos_ws.addEventListener("message", e => {
