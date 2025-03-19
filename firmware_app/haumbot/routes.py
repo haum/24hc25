@@ -78,17 +78,19 @@ async def infos_ws_task(rq):
         if mask & 1: b += struct.pack('>fff', position.x, position.y, position.a)
         if mask & 2: b += struct.pack('>bbb', *led.get_color())
         await rq.w(b);
-        await asyncio.sleep(0.5)
+        await asyncio.sleep(info['delay'])
 
 @web.route_ws('/infos.ws')
 async def infos_ws(rq, evt):
     global infos_ws_data
     t = evt['type']
     if t == 'open':
-        infos_ws_data[rq] = { 'task': asyncio.create_task(infos_ws_task(rq)), 'mask': 1 }
+        infos_ws_data[rq] = { 'task': asyncio.create_task(infos_ws_task(rq)), 'mask': 1, 'delay': 0.5 }
 
     elif t == 'bytes':
         infos_ws_data[rq]['mask'] = evt['data'][-1]
+        if len(evt['data']) > 1:
+            infos_ws_data[rq]['delay'] = max(evt['data'][-2], 1) * 0.01
 
     elif t == 'close':
         infos_ws_data[rq]['task'].cancel()
