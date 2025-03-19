@@ -3,6 +3,7 @@ const motors_ml = document.getElementById("motors_ml")
 const motors_mr = document.getElementById("motors_mr")
 const motors_stop = document.getElementById("motors_stop")
 const motors_joystick = document.getElementById('motors_joystick');
+const motors_canvas = document.getElementById('motors_canvas');
 
 let motors_ws = null;
 
@@ -107,3 +108,39 @@ motors_joystick.addEventListener('touchstart', ondown);
 motors_joystick.addEventListener('touchmove', onmove);
 motors_joystick.addEventListener('touchend', onup);
 motors_joystick.addEventListener('touchcancel', onup);
+
+const text_color = getComputedStyle(motors_canvas).color;
+document.body.addEventListener('infos_motors', e => {
+	const ctx = motors_canvas.getContext("2d");
+	const w = motors_canvas.width;
+	const h = motors_canvas.height;
+	const m = 5;
+	const ml = e.detail[0];
+	const mr = e.detail[1];
+	ctx.clearRect(0, 0, w, h);
+	ctx.lineWidth = 3;
+	ctx.strokeStyle = "#808080"
+	ctx.fillStyle = "#008000"
+
+	ctx.beginPath();
+	ctx.rect(m, m, w-2*m, (h/2-m));
+	ctx.stroke();
+
+	ctx.beginPath();
+	ctx.rect(m, (h/2-m)+m, w-2*m, (h/2-m));
+	ctx.stroke();
+
+	ctx.beginPath();
+	if (ml > 0)
+		ctx.rect(w/2, m+1, ml*(w/2-m), (h/2-m)-2);
+	else
+		ctx.rect(w/2+ml*(w/2-m), m+1, -ml*(w/2-m), (h/2-m)-2);
+	ctx.fill();
+
+	ctx.beginPath();
+	if (ml > 0)
+		ctx.rect(w/2, (h/2-m)+m+1, mr*(w/2-m), (h/2-m)-2);
+	else
+		ctx.rect(w/2+mr*(w/2-m), (h/2-m)+m+1, -mr*(w/2-m), (h/2-m)-2);
+	ctx.fill();
+});
