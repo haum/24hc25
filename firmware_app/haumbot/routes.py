@@ -77,6 +77,12 @@ async def infos_ws_task(rq):
         b = int(mask).to_bytes()
         if mask & 1: b += struct.pack('>fff', position.x, position.y, position.a)
         if mask & 2: b += struct.pack('>bbb', *led.get_color())
+        if mask & 4: b += struct.pack('>ff', motors.ml.p, motors.mr.p)
+        if mask & 8: b += struct.pack(
+            '>hhhh',
+            position.owl, position.owr,
+            position.tl, position.tr
+        )
         await rq.w(b);
         await asyncio.sleep(info['delay'])
 
