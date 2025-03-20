@@ -1,5 +1,23 @@
 import { form_post } from "./main.js";
 
+const section = document.getElementById('section_wifi');
+section.innerHTML = `
+	<h3>Enregistrés</h3>
+	<form action="/wlan/sort" method="POST" id="form_wlan_sort"></form>
+	<h3>Ajouter/Modifier</h3>
+	<form action="/wlan/set_password" method="POST" id="form_wlan_pass">
+		<div role="group">
+			<input type="text" name="ssid" placeholder="SSID" />
+			<input type="text" name="password" placeholder="Mot de passe" />
+			<input type="submit" value="Ajouter/Modifier" />
+		</div>
+	</form>
+	<h3>Déconnecter</h3>
+	<form action="/wlan/disconnect" method="GET" id="form_wlan_disconnect">
+		<input type="submit" value="Déconnecter" />
+	</form>
+`;
+
 const form_sort = document.getElementById('form_wlan_sort');
 const form_pass = document.getElementById('form_wlan_pass');
 const form_deco = document.getElementById('form_wlan_disconnect');

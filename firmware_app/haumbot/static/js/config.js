@@ -1,6 +1,6 @@
 import { form_post } from "./main.js";
 
-const config_section = document.getElementById('config_section');
+const section = document.getElementById('section_config');
 const form = document.createElement('form');
 
 const c_pins = [
@@ -38,7 +38,7 @@ async function load_config() {
 function setup_form() {
 	form.action = '/config/set';
 	form.method = 'POST';
-	config_section.append(form);
+	section.append(form);
 
 	const add_input = (l, locked) => {
 		const l_label = l[1];

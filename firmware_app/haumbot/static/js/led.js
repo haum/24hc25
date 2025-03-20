@@ -1,5 +1,18 @@
 import { form_post } from "./main.js";
 
+const section = document.getElementById('section_led');
+section.innerHTML = `
+	<div class="grid">
+		<form method="POST" action="/led/set_color" id="led_form">
+			<fieldset role="group">
+				<input type="color" name="ledcolor" value="#000000" />
+				<input type="submit" />
+			</fieldset>
+		</form>
+		<p><span id="ledcolor_info"></span></p>
+	</div>
+`;
+
 const cs = document.querySelectorAll('input[type=color]');
 for (const c of cs) {
 	c.type = 'text';

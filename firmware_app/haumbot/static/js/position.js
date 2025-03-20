@@ -1,3 +1,12 @@
+const section = document.getElementById('section_position');
+section.innerHTML = `
+	<p>
+		<input type="range" min="190" max="1000" value="1000" id="map_scale" /><br/>
+		<input type="button" value="RàZ position" id="position_reset" /><br/>
+		<canvas id="map" width="800" height="800"></canvas>
+	</p>
+`;
+
 const position_reset = document.getElementById('position_reset');
 position_reset.addEventListener('click', async () => {
 	position_reset.disabled = true;

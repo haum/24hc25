@@ -1,3 +1,16 @@
+const section = document.getElementById('section_motors');
+section.innerHTML = `
+	<div class="grid">
+		<p><canvas id="motors_joystick" width="400" height="400"></canvas></p>
+		<p>
+			<input type="range" min="-100" max="100" value="0" id="motors_ml" /><br/>
+			<input type="range" min="-100" max="100" value="0" id="motors_mr" /><br/>
+			<input type="button" id="motors_stop" value="Stop" />
+			<canvas id="motors_canvas" width="350" height="40"></canvas>
+		</p>
+	</div>
+`;
+
 const motors_buf = new Float32Array(2);
 const motors_ml = document.getElementById("motors_ml")
 const motors_mr = document.getElementById("motors_mr")
