@@ -1,6 +1,6 @@
 import { form_post } from "./main.js";
 
-const section = document.getElementById('section_wifi');
+const section = document.getElementById('section_wlan');
 section.insertAdjacentHTML('beforeend', `
 	<h3>Enregistrés</h3>
 	<form action="/wlan/sort" method="POST" id="form_wlan_sort"></form>
