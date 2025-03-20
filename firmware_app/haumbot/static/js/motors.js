@@ -1,3 +1,5 @@
+import { infos_mask, INFOS_MOTORS } from "./infos.js";
+
 const section = document.getElementById('section_motors');
 section.insertAdjacentHTML('beforeend', `
 	<div class="grid">
@@ -157,3 +159,8 @@ document.body.addEventListener('h:infos:motors', e => {
 		ctx.rect(w/2+mr*(w/2-m), (h/2-m)+m+1, -mr*(w/2-m), (h/2-m)-2);
 	ctx.fill();
 });
+
+document.body.addEventListener('h:section:statechanged', e => {
+	infos_mask(INFOS_MOTORS, e.detail['on']);
+});
+infos_mask(INFOS_MOTORS, true);

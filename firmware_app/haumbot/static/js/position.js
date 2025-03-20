@@ -1,3 +1,5 @@
+import { infos_mask, INFOS_POSITION } from "./infos.js";
+
 const section = document.getElementById('section_position');
 section.insertAdjacentHTML('beforeend', `
 	<p>
@@ -80,3 +82,8 @@ const map_draw = (x, y, a) => {
 document.body.addEventListener('h:infos:position', e => {
 	 map_draw(...e.detail);
 });
+
+document.body.addEventListener('h:section:statechanged', e => {
+	infos_mask(INFOS_POSITION, e.detail['on']);
+});
+infos_mask(INFOS_POSITION, true);

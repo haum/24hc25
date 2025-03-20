@@ -73,6 +73,13 @@ for (const d of sections) {
 		sessionStorage.setItem('sections_opened', Array.from(sections_opened).join('\n'));
 		if (on)
 			import('./' + id + '.js');
+		document.body.dispatchEvent(new CustomEvent('h:section:statechanged', {
+			'detail': {
+				'id': id,
+				'on': on,
+				'section': s
+			}
+		}));
 	}
 	checkbox.addEventListener('click', e => toggle(e.target.checked));
 	if (sections_opened.has(id)) toggle(true);

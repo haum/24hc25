@@ -1,4 +1,5 @@
 import { form_post } from "./main.js";
+import { infos_mask, INFOS_LED } from "./infos.js";
 
 const section = document.getElementById('section_led');
 section.insertAdjacentHTML('beforeend', `
@@ -56,3 +57,8 @@ document.body.addEventListener('h:infos:led', e => {
 	}
 	ledcolor_info.style.backgroundColor = color_hex;
 });
+
+document.body.addEventListener('h:section:statechanged', e => {
+	infos_mask(INFOS_LED, e.detail['on']);
+});
+infos_mask(INFOS_LED, true);

@@ -1,18 +1,13 @@
-const INFOS_POSITION = 0x01;
-const INFOS_LED = 0x02;
-const INFOS_MOTORS = 0x04;
-const INFOS_WHEELS = 0x08;
+export const INFOS_POSITION = 0x01;
+export const INFOS_LED = 0x02;
+export const INFOS_MOTORS = 0x04;
+export const INFOS_WHEELS = 0x08;
 
-let infos_ws = new WebSocket('ws://' + document.location.host + '/infos.ws');
-infos_ws.binaryType = "arraybuffer";
-infos_ws.addEventListener("open", () => {
-	const buf = new Uint8Array(2);
-	const ms = 500;
-	buf[0] = ms / 10;
-	buf[1] = INFOS_POSITION | INFOS_LED | INFOS_MOTORS | INFOS_WHEELS;
-	infos_ws.send(buf);
-});
-infos_ws.addEventListener("message", e => {
+let infos_ws = null;
+let period_ms = 500;
+let mask = 0;
+
+function on_msg(e) {
 	const view = new DataView(e.data);
 	let pos = 0;
 
@@ -61,4 +56,35 @@ infos_ws.addEventListener("message", e => {
 			'detail': [wl, wr, tl, tr]
 		}));
 	}
-});
+}
+
+function send_mask() {
+	if (mask == 0) {
+		if (infos_ws) {
+			infos_ws.close();
+			infos_ws = null;
+		}
+	} else {
+		if (infos_ws) {
+			if (infos_ws.readyState == WebSocket.OPEN) {
+				const buf = new Uint8Array(2);
+				buf[0] = period_ms / 10;
+				buf[1] = mask;
+				infos_ws.send(buf);
+			}
+		} else {
+			infos_ws = new WebSocket('ws://' + document.location.host + '/infos.ws');
+			infos_ws.binaryType = "arraybuffer";
+			infos_ws.addEventListener("open", send_mask);
+			infos_ws.addEventListener("message", on_msg);
+		}
+	}
+}
+
+export function infos_mask(v, on) {
+	if (on)
+		mask |= v;
+	else
+		mask &= ~v;
+	send_mask();
+}

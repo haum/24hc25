@@ -1,3 +1,5 @@
+import { infos_mask, INFOS_WHEELS } from "./infos.js";
+
 const section = document.getElementById('section_wheels');
 section.insertAdjacentHTML('beforeend', `
 	<canvas id="wheels" width="800" height="400"></canvas>
@@ -52,3 +54,8 @@ document.body.addEventListener('h:infos:wheels', e => {
 	if (tl) ctx.fillText(tl, w/4, 3*h/4);
 	if (tr) ctx.fillText(tr, 3*w/4, 3*h/4);
 });
+
+document.body.addEventListener('h:section:statechanged', e => {
+	infos_mask(INFOS_WHEELS, e.detail['on']);
+});
+infos_mask(INFOS_WHEELS, true);
