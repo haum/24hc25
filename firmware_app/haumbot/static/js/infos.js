@@ -24,7 +24,7 @@ infos_ws.addEventListener("message", e => {
 		const position_y = view.getFloat32(pos + 4);
 		const position_a = view.getFloat32(pos + 8);
 		pos += 3*4;
-		document.body.dispatchEvent(new CustomEvent('infos_position', {
+		document.body.dispatchEvent(new CustomEvent('h:infos:position', {
 			'detail': [position_x, position_y, position_a]
 		}));
 	}
@@ -35,7 +35,7 @@ infos_ws.addEventListener("message", e => {
 		const led_b = view.getUint8(pos + 2);
 		pos += 3;
 
-		document.body.dispatchEvent(new CustomEvent('infos_led', {
+		document.body.dispatchEvent(new CustomEvent('h:infos:led', {
 			'detail': [led_r, led_g, led_b]
 		}));
 	}
@@ -45,7 +45,7 @@ infos_ws.addEventListener("message", e => {
 		const mr = view.getFloat32(pos + 4);
 		pos += 2*4;
 
-		document.body.dispatchEvent(new CustomEvent('infos_motors', {
+		document.body.dispatchEvent(new CustomEvent('h:infos:motors', {
 			'detail': [ml, mr]
 		}));
 	}
@@ -57,7 +57,7 @@ infos_ws.addEventListener("message", e => {
 		const tr = view.getInt16(pos + 6);
 		pos += 4*2;
 
-		document.body.dispatchEvent(new CustomEvent('infos_wheels', {
+		document.body.dispatchEvent(new CustomEvent('h:infos:wheels', {
 			'detail': [wl, wr, tl, tr]
 		}));
 	}

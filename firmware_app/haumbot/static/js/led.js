@@ -34,7 +34,7 @@ led_form.addEventListener('submit', e => {
 });
 
 const ledcolor_info = document.getElementById('ledcolor_info');
-document.body.addEventListener('infos_led', e => {
+document.body.addEventListener('h:infos:led', e => {
 	let color_hex = '#';
 	for (const v of e.detail) {
 		const sv = v.toString(16);

@@ -68,6 +68,6 @@ const map_draw = (x, y, a) => {
 	ctx.restore();
 };
 
-document.body.addEventListener('infos_position', e => {
+document.body.addEventListener('h:infos:position', e => {
 	 map_draw(...e.detail);
 });

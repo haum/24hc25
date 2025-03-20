@@ -110,7 +110,7 @@ motors_joystick.addEventListener('touchend', onup);
 motors_joystick.addEventListener('touchcancel', onup);
 
 const text_color = getComputedStyle(motors_canvas).color;
-document.body.addEventListener('infos_motors', e => {
+document.body.addEventListener('h:infos:motors', e => {
 	const ctx = motors_canvas.getContext("2d");
 	const w = motors_canvas.width;
 	const h = motors_canvas.height;

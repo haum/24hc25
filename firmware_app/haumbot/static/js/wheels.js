@@ -1,7 +1,7 @@
 const canvas = document.getElementById('wheels');
 const text_color = getComputedStyle(canvas).color;
 
-document.body.addEventListener('infos_wheels', e => {
+document.body.addEventListener('h:infos:wheels', e => {
 	const ctx = canvas.getContext("2d");
 	const w = canvas.width;
 	const h = canvas.height;
