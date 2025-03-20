@@ -1,7 +1,7 @@
 const section = document.getElementById('section_wheels');
-section.innerHTML = `
+section.insertAdjacentHTML('beforeend', `
 	<canvas id="wheels" width="800" height="400"></canvas>
-`;
+`);
 
 const canvas = document.getElementById('wheels');
 const text_color = getComputedStyle(canvas).color;

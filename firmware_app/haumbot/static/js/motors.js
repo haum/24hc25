@@ -1,5 +1,5 @@
 const section = document.getElementById('section_motors');
-section.innerHTML = `
+section.insertAdjacentHTML('beforeend', `
 	<div class="grid">
 		<p><canvas id="motors_joystick" width="400" height="400"></canvas></p>
 		<p>
@@ -9,7 +9,7 @@ section.innerHTML = `
 			<canvas id="motors_canvas" width="350" height="40"></canvas>
 		</p>
 	</div>
-`;
+`);
 
 const motors_buf = new Float32Array(2);
 const motors_ml = document.getElementById("motors_ml")

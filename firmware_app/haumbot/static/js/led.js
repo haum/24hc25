@@ -1,7 +1,7 @@
 import { form_post } from "./main.js";
 
 const section = document.getElementById('section_led');
-section.innerHTML = `
+section.insertAdjacentHTML('beforeend', `
 	<div class="grid">
 		<form method="POST" action="/led/set_color" id="led_form">
 			<fieldset role="group">
@@ -11,7 +11,7 @@ section.innerHTML = `
 		</form>
 		<p><span id="ledcolor_info"></span></p>
 	</div>
-`;
+`);
 
 const cs = document.querySelectorAll('input[type=color]');
 for (const c of cs) {

@@ -1,7 +1,7 @@
 import { form_post } from "./main.js";
 
 const section = document.getElementById('section_wifi');
-section.innerHTML = `
+section.insertAdjacentHTML('beforeend', `
 	<h3>Enregistrés</h3>
 	<form action="/wlan/sort" method="POST" id="form_wlan_sort"></form>
 	<h3>Ajouter/Modifier</h3>
@@ -16,7 +16,7 @@ section.innerHTML = `
 	<form action="/wlan/disconnect" method="GET" id="form_wlan_disconnect">
 		<input type="submit" value="Déconnecter" />
 	</form>
-`;
+`);
 
 const form_sort = document.getElementById('form_wlan_sort');
 const form_pass = document.getElementById('form_wlan_pass');
