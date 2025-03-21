@@ -43,7 +43,12 @@ def mod(a, arange, amin=0):
 @micropython.native
 def position_tick(p=None):
     global owl, owr, tl, tr, v, x, y, a
-    wl, wr = read_angles()
+    try:
+        wl, wr = read_angles()
+    except OSError:
+        print('Communication error with AS5600, stop measuring position')
+        timer.deinit()
+        return
     if wl - owl > 2048: tl -= 1
     if wr - owr > 2048: tr -= 1
     if wl - owl < -2048: tl += 1
@@ -56,12 +61,21 @@ def position_tick(p=None):
 
 def reset():
     global iwl, iwr, owl, owr, tl, tr, x, y, Kw, Kv
-    iwl, iwr = as5600_get_rawangle(i2c_l), as5600_get_rawangle(i2c_r)
-    owl, owr = read_angles()
+    timer.deinit()
+    try:
+        iwl, iwr = as5600_get_rawangle(i2c_l), as5600_get_rawangle(i2c_r)
+        owl, owr = read_angles()
+    except OSError:
+        print('Communication error with AS5600, not measuring position')
+        return
     tl, tr = 0, 0
     x, y = 0, 0
     Kw = conf.get('Kw')
     Kv = conf.get('Kv')
+    timer.init(
+        period=period,
+        callback=lambda t: micropython.schedule(position_tick, None)
+    )
 
 def conf_changed():
     global Kw, Kv
@@ -69,17 +83,6 @@ def conf_changed():
     Kv = conf.get('Kv')
 
 def start_measure():
-    timer.deinit()
     conf.notify_changes('Kw', conf_changed)
     conf.notify_changes('Kv', conf_changed)
-
-    try:
-        reset()
-    except OSError:
-        print('At least one AS5600 not found, not measuring position')
-        return
-
-    timer.init(
-        period=period,
-        callback=lambda t: micropython.schedule(position_tick, None)
-    )
+    reset()
