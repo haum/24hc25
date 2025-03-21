@@ -2,6 +2,7 @@ export const INFOS_POSITION = 0x01;
 export const INFOS_LED = 0x02;
 export const INFOS_MOTORS = 0x04;
 export const INFOS_WHEELS = 0x08;
+export const INFOS_SPEED = 0x10;
 
 let infos_ws = null;
 let period_ms = 500;
@@ -54,6 +55,16 @@ function on_msg(e) {
 
 		document.body.dispatchEvent(new CustomEvent('h:infos:wheels', {
 			'detail': [wl, wr, tl, tr]
+		}));
+	}
+
+	if (mask & INFOS_SPEED) {
+		const w = view.getFloat32(pos + 0);
+		const v = view.getFloat32(pos + 4);
+		pos += 4*2;
+
+		document.body.dispatchEvent(new CustomEvent('h:infos:speed', {
+			'detail': [w, v]
 		}));
 	}
 }
