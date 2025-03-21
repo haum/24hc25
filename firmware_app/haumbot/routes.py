@@ -85,6 +85,7 @@ async def infos_ws_task(rq):
             position.owl, position.owr,
             position.tl, position.tr
         )
+        if mask & 16: b += struct.pack('>ff', position.w, position.v)
         await rq.w(b);
         await asyncio.sleep(info['delay'])
 

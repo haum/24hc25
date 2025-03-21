@@ -12,6 +12,7 @@ tl, tr = 0, 0 # Nb of turns of wheels
 Kv, Kw = 1, 1 # Constants for speed and angle
 x, y, a = 0, 0, 0 # Position in m and rad
 v = 0 # average speed
+w = 0 # rotation speed
 
 i2c_l = machine.SoftI2C(
     scl=machine.Pin(conf.get('pin_i2c_l_scl')),
@@ -64,7 +65,9 @@ def position_tick(p=None):
     if wr - owr > 2048: tr -= 1
     if wl - owl < -2048: tl += 1
     if wr - owr < -2048: tr += 1
+    oa = a
     a = (wr - wl + (tr - tl) * 4096) * Kw
+    w = 1000 * (oa - a) / period
     v = (mod(wl - owl, 4096, -2048) + mod(wr - owr, 4096, -2048)) / 2 * Kv
     x += v * cos(a) * period / 1000
     y += v * sin(a) * period / 1000
