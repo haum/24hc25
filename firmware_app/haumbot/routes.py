@@ -4,6 +4,7 @@ import struct
 import haumbot.config as conf
 import haumbot.led as led
 import haumbot.motors as motors
+import haumbot.pilot as pilot
 import haumbot.position as position
 import haumbot.wlan as wlan
 import aiowebserver as web
@@ -61,6 +62,7 @@ async def led_post_handler(rq):
 async def motor_ws(rq, evt):
     t = evt['type']
     if t == 'bytes':
+        pilot.stop()
         vl, vr = struct.unpack('ff', evt['data'])
         motors.ml.go(vl)
         motors.mr.go(vr)
@@ -175,5 +177,21 @@ async def wlan_sort_handler(rq):
 async def wlan_disconnect_handler(rq):
     print('DISCONNECT')
     wlan.disconnect()
+    await rq.header_text()
+    await rq.w('OK');
+
+@web.route('POST', '/turtle/send')
+async def turtle_send_handler(rq):
+    await rq.header_text()
+    if rq.is_postjson():
+        data = await rq.decode_postjson_data()
+        if pilot.start(data):
+            await rq.w('OK');
+            return
+    await rq.w('KO');
+
+@web.route('GET', '/turtle/stop')
+async def turtle_stop_handler(rq):
+    pilot.stop()
     await rq.header_text()
     await rq.w('OK');
