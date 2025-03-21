@@ -22,6 +22,15 @@ const c_geometry = [
 	['Kv', 'Constante géométrique d\'avancement'],
 ];
 
+const c_control = [
+	['Kp_v', 'PID Avancer - Gain KP'],
+	['Ki_v', 'PID Avancer - Gain KI'],
+	['Kd_v', 'PID Avancer - Gain KD'],
+	['Kp_w', 'PID Tourner - Gain KP'],
+	['Ki_w', 'PID Tourner - Gain KI'],
+	['Kd_w', 'PID Tourner - Gain KD'],
+];
+
 function update_form(conf) {
 	for (const input of form.elements) {
 		if (input.name)
@@ -61,6 +70,11 @@ function setup_form() {
 	h_moving.innerText = 'Géométrie'
 	form.append(h_moving);
 	for (const l of c_geometry) add_input(l);
+
+	const h_control = document.createElement('h3');
+	h_control.innerText = 'Contrôle'
+	form.append(h_control);
+	for (const l of c_control) add_input(l);
 
 	const btn = document.createElement('input');
 	btn.type = 'submit';
