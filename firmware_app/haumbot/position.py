@@ -30,6 +30,16 @@ timer = machine.Timer(0)
 def as5600_get_rawangle(i2c):
     return struct.unpack('>H', i2c.readfrom_mem(0x36, 0x0c, 2))[0] & 0xfff
 
+def diagnostic():
+    try:
+        as5600_get_rawangle(i2c_l)
+    except OSError:
+        print("Left not found")
+    try:
+        as5600_get_rawangle(i2c_r)
+    except OSError:
+        print("Right not found")
+
 @micropython.native
 def read_angles():
     wl = (8192 - as5600_get_rawangle(i2c_l) + iwl) & 0xfff
@@ -48,6 +58,7 @@ def position_tick(p=None):
     except OSError:
         print('Communication error with AS5600, stop measuring position')
         timer.deinit()
+        diagnostic()
         return
     if wl - owl > 2048: tl -= 1
     if wr - owr > 2048: tr -= 1
@@ -67,6 +78,7 @@ def reset():
         owl, owr = read_angles()
     except OSError:
         print('Communication error with AS5600, not measuring position')
+        diagnostic()
         return
     tl, tr = 0, 0
     x, y = 0, 0
