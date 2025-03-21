@@ -14,6 +14,12 @@ config = {
     'mr_inv': False,
     'Kw': 0.00073885,
     'Kv': 0.0005,
+    'Kp_v': 0.2,
+    'Ki_v': 0,
+    'Kd_v': 0.2,
+    'Kp_w': 1,
+    'Ki_w': 0,
+    'Kd_w': 0,
 }
 config_types = {
     'pin_led': int,
@@ -27,6 +33,12 @@ config_types = {
     'mr_inv': bool,
     'Kw': float,
     'Kv': float,
+    'Kp_v': float,
+    'Ki_v': float,
+    'Kd_v': float,
+    'Kp_w': float,
+    'Ki_w': float,
+    'Kd_w': float,
 }
 notify_changes_cbs = {}
 
