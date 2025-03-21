@@ -21,6 +21,7 @@ const sections = [
 	{ 'id': 'motors', 'title': 'Moteurs' },
 	{ 'id': 'wheels', 'title': 'Retour roues' },
 	{ 'id': 'position', 'title': 'Position' },
+	{ 'id': 'turtle', 'title': 'Turtle' },
 	{ 'id': 'config', 'title': 'Config' },
 	{ 'id': 'wlan', 'title': 'Wifi' },
 ];
