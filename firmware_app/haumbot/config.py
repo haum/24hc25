@@ -20,6 +20,9 @@ config = {
     'Kp_w': 1,
     'Ki_w': 0,
     'Kd_w': 0,
+    'rangefinder_sigma': 45,
+    'rangefinder_thresh': 2000,
+    'rangefinder_tau': 100,
 }
 config_types = {
     'pin_led': int,
@@ -39,6 +42,9 @@ config_types = {
     'Kp_w': float,
     'Ki_w': float,
     'Kd_w': float,
+    'rangefinder_sigma': int,
+    'rangefinder_thresh': int,
+    'rangefinder_tau': int,
 }
 notify_changes_cbs = {}
 
