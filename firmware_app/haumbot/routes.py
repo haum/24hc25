@@ -6,6 +6,7 @@ import haumbot.led as led
 import haumbot.motors as motors
 import haumbot.pilot as pilot
 import haumbot.position as position
+import haumbot.rangefinder as rangefinder
 import haumbot.wlan as wlan
 import aiowebserver as web
 from math import pi
@@ -86,6 +87,7 @@ async def infos_ws_task(rq):
             position.tl, position.tr
         )
         if mask & 16: b += struct.pack('>ff', position.w, position.v)
+        if mask & 32: b += struct.pack('>H', int(rangefinder.distance))
         await rq.w(b);
         await asyncio.sleep(info['delay'])
 
