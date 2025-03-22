@@ -49,9 +49,8 @@ def conf_changed():
     lin_b = conf.get('rangefinder_lin_b')
     etau = exp(-ms/max(conf.get('rangefinder_tau'), 1))
 
-def start_measure():
-    conf.notify_changes('rangefinder_lin_a', conf_changed)
-    conf.notify_changes('rangefinder_lin_b', conf_changed)
-    conf.notify_changes('rangefinder_tau', conf_changed)
+conf.notify_changes('rangefinder_lin_a', conf_changed)
+conf.notify_changes('rangefinder_lin_b', conf_changed)
+conf.notify_changes('rangefinder_tau', conf_changed)
 
 conf_changed()
