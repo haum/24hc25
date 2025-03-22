@@ -22,11 +22,13 @@ def start():
     import asyncio
     import haumbot.led
     import haumbot.position
+    import haumbot.rangefinder
     import haumbot.routes # To register web routes
 
     asyncio.create_task(wlan.autoconnect())
     asyncio.create_task(web.start())
     asyncio.create_task(led.update_led())
+    asyncio.create_task(rangefinder.run())
     asyncio.create_task(check_stdin())
     position.start_measure()
 
