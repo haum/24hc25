@@ -48,9 +48,14 @@ async def move_dist(dist):
     dist2 = (dist/1000)**2
     pid = DiscretePID(0.05, conf.get('Kp_v'), conf.get('Ki_v'), conf.get('Kd_v'))
     sgn = 1 if dist > 0 else -1
+    d2_old = 0
+    block_count = 0
     while True:
         d2 = (position.x - x0)**2 + (position.y - y0)**2
         if d2 > dist2: break
+        if abs(d2 - d2_old) < 0.001: block_count += 1
+        if block_count >= 10: break
+        d2_old = d2
         c = min(pid.process(position.a - a0), 0.3)
         motors.ml.go(sgn * 0.7 + c)
         motors.mr.go(sgn * 0.7 - c)
@@ -63,8 +68,15 @@ async def move_angle(angle):
     a0 = position.a
     pid = DiscretePID(0.05, conf.get('Kp_w'), conf.get('Ki_w'), conf.get('Kd_w'))
     sgn = 1 if angle > 0 else -1
+    a_old = 0
+    block_count = 0
     while True:
         if sgn * (position.a - a0) > sgn * angle: break
+        if (position.a - a_old) < 0.0001:
+            block_count +=1
+        if block_count >= 3:
+            break
+        a_old = position.a
         c = min(pid.process(position.v), 0.3)
         motors.ml.go(sgn * (-0.7 + c))
         motors.mr.go(sgn * (0.7 + c))
