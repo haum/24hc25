@@ -23,6 +23,8 @@ config = {
     'rangefinder_sigma': 45,
     'rangefinder_thresh': 2000,
     'rangefinder_tau': 100,
+    'rangefinder_lin_a': 1,
+    'rangefinder_lin_b': 0,
 }
 config_types = {
     'pin_led': int,
@@ -45,6 +47,8 @@ config_types = {
     'rangefinder_sigma': int,
     'rangefinder_thresh': int,
     'rangefinder_tau': int,
+    'rangefinder_lin_a': float,
+    'rangefinder_lin_b': float,
 }
 notify_changes_cbs = {}
 

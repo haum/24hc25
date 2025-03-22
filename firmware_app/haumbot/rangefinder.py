@@ -16,6 +16,8 @@ vl = vl53l3cx.VL53L3CX(i2c)
 distance = 0
 etau = 0.82
 ms = 10
+lin_a = conf.get('rangefinder_lin_a')
+lin_b = conf.get('rangefinder_lin_b')
 
 async def run():
     global distance, etau
@@ -36,6 +38,7 @@ async def run():
                 data = vl.dumpDebugData()
                 measurement_status, estimated_distance_mm, signal_kcps, sigma_mm, ambient_kcps = data
                 if measurement_status == 0:
+                    estimated_distance_mm = min(max(0, estimated_distance_mm * lin_a + lin_b), 1000)
                     distance = estimated_distance_mm + etau * (distance - estimated_distance_mm)
             await asyncio.sleep_ms(ms)
     else:
