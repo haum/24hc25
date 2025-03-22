@@ -31,6 +31,12 @@ const c_control = [
 	['Kd_w', 'PID Tourner - Gain KD'],
 ];
 
+const c_rangefinder = [
+	['rangefinder_sigma', 'VL53L3CX Sigma'],
+	['rangefinder_thresh', 'VL53L3CX Threshold'],
+	['rangefinder_tau', 'Constante de temps du filtre (ms)'],
+];
+
 function update_form(conf) {
 	for (const input of form.elements) {
 		if (input.name)
@@ -75,6 +81,11 @@ function setup_form() {
 	h_control.innerText = 'Contrôle'
 	form.append(h_control);
 	for (const l of c_control) add_input(l);
+
+	const h_rangefinder = document.createElement('h3');
+	h_rangefinder.innerText = 'Télémètre'
+	form.append(h_rangefinder);
+	for (const l of c_rangefinder) add_input(l);
 
 	const btn = document.createElement('input');
 	btn.type = 'submit';
