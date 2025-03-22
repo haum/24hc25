@@ -3,6 +3,7 @@ export const INFOS_LED = 0x02;
 export const INFOS_MOTORS = 0x04;
 export const INFOS_WHEELS = 0x08;
 export const INFOS_SPEED = 0x10;
+export const INFOS_RANGEFINDER = 0x20;
 
 let infos_ws = null;
 let period_ms = 500;
@@ -65,6 +66,15 @@ function on_msg(e) {
 
 		document.body.dispatchEvent(new CustomEvent('h:infos:speed', {
 			'detail': [w, v]
+		}));
+	}
+
+	if (mask & INFOS_RANGEFINDER) {
+		const d = view.getUint16(pos + 0);
+		pos += 2;
+
+		document.body.dispatchEvent(new CustomEvent('h:infos:rangefinder', {
+			'detail': [d]
 		}));
 	}
 }
