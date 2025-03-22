@@ -35,6 +35,8 @@ const c_rangefinder = [
 	['rangefinder_sigma', 'VL53L3CX Sigma'],
 	['rangefinder_thresh', 'VL53L3CX Threshold'],
 	['rangefinder_tau', 'Constante de temps du filtre (ms)'],
+	['rangefinder_lin_a', 'Correction linéaire - pente'],
+	['rangefinder_lin_b', 'Correction linéaire - ordonnée à l\'origine'],
 ];
 
 function update_form(conf) {
