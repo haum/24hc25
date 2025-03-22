@@ -10,6 +10,7 @@ def start():
         try:
             import mip
             mip.install('github:haum/micropython-aiowebserver')
+            mip.install('github:haum/micropython-vl53l3cx')
             import aiowebserver as web
         except OSError:
             print('''
